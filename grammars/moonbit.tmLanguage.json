@@ -52,6 +52,10 @@
         },
         {
           "name": "keyword.control.moonbit",
+          "match": "\\btry\\?"
+        },
+        {
+          "name": "keyword.control.moonbit",
           "match": "\\b(guard|if|while|break|continue|return|try|catch|except|raise|noraise|match|lexmatch|using|else|as|in|is|loop|for|async|defer)\\b"
         },
         {
@@ -76,7 +80,7 @@
         },
         {
           "name": "keyword.operator.other.moonbit",
-          "match": "\\|>"
+          "match": "(\\.\\.|\\|>)"
         },
         {
           "name": "keyword.operator.comparison.moonbit",
@@ -84,7 +88,7 @@
         },
         {
           "name": "keyword.operator.logical.moonbit",
-          "match": "(\\bnot\\b|&&|\\|\\|)"
+          "match": "(\\bnot\\b|&&|\\|\\||(?<![A-Za-z0-9_])!(?!!))"
         },
         {
           "name": "keyword.operator.bitwise.moonbit",
