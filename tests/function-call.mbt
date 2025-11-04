@@ -1,4 +1,4 @@
-// SYNTAX TEST "source.moonbit" "function call"
+// SYNTAX TEST "source.moonbit" "function-call"
 ///|
 fn foo() -> Unit {
 // ^^^ entity.name.function.moonbit
@@ -12,7 +12,7 @@ fn bar () -> Unit {
 ///|
 fn main {
   foo()
-  // <--- entity.name.function.moonbit
+//^^^ entity.name.function.moonbit
   bar ()
-  // <--- entity.name.function.moonbit
+//^^^ entity.name.function.moonbit
 }
