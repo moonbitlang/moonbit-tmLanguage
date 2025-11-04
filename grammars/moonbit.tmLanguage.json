@@ -52,7 +52,7 @@
         },
         {
           "name": "keyword.control.moonbit",
-          "match": "\\btry\\?"
+          "match": "\\btry(\\?|!)"
         },
         {
           "name": "keyword.control.moonbit",
@@ -88,7 +88,7 @@
         },
         {
           "name": "keyword.operator.logical.moonbit",
-          "match": "(\\bnot\\b|&&|\\|\\||(?<![A-Za-z0-9_])!(?!!))"
+          "match": "(\\bnot\\b|&&|\\|\\||(?<!try)!)"
         },
         {
           "name": "keyword.operator.bitwise.moonbit",
