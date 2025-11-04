@@ -52,15 +52,11 @@
         },
         {
           "name": "keyword.control.moonbit",
-          "match": "\\b(guard|if|while|break|continue|return|try|catch|except|raise|match|using|else|as|in|is|loop|for|async)\\b"
+          "match": "\\b(guard|if|while|break|continue|return|try|catch|except|raise|noraise|match|lexmatch|using|else|as|in|is|loop|for|async|defer)\\b"
         },
         {
           "name": "keyword.moonbit",
-          "match": "\\b(type!|(type|typealias|let|const|enum|struct|import|trait|traitalias|derive|test|impl|with|fnalias|recur|suberror)\\b)"
-        },
-        {
-          "name": "variable.language.moonbit",
-          "match": "\\b(self)\\b"
+          "match": "\\b(type!|lexmatch\\?|(type|typealias|let|const|enum|struct|import|trait|traitalias|derive|test|impl|with|fnalias|recur|suberror|letrec|and)\\b)"
         },
         {
           "name": "storage.modifier.moonbit",
