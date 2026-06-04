@@ -49,6 +49,9 @@
       "include": "#let-destructure"
     },
     {
+      "include": "#letrec-destructure"
+    },
+    {
       "include": "#const-destructure"
     },
     {
@@ -59,6 +62,9 @@
     },
     {
       "include": "#enum-destructure"
+    },
+    {
+      "include": "#enumview-destructure"
     },
     {
       "include": "#extenum-destructure"
@@ -281,7 +287,7 @@
     },
     "packagename": {
       "name": "entity.name.namespace.moonbit",
-      "match": "@[a-zA-Z_][a-zA-Z0-9_]*(?:\\/[a-zA-Z_][a-zA-Z0-9_]*)*"
+      "match": "@[a-zA-Z_\\u0080-\\uFFFF][a-zA-Z0-9_\\u0080-\\uFFFF]*(?:\\/[a-zA-Z_\\u0080-\\uFFFF][a-zA-Z0-9_\\u0080-\\uFFFF]*)*"
     },
     "float": {
       "name": "constant.numeric.float.moonbit",
@@ -297,7 +303,7 @@
     },
     "regexliteral": {
       "name": "string.regexp.moonbit",
-      "match": "re\"(?:[^\"\\\\\\n]|\\\\(?:['\"\\\\nrtbf/ ]|x[0-9a-fA-F]{2}|o[0-3][0-7]{2}|u[0-9a-fA-F]{4}|u\\{[0-9a-fA-F]+\\}|.))*\""
+      "match": "re\"(?:[^\"\\\\\\n]|\\\\\\{(?:[^{}\\n\"'\\\\]|\\\\(?:['\"\\\\nrtbf/ ]|x[0-9a-fA-F]{2}|o[0-3][0-7]{2}|u[0-9a-fA-F]{4}|u\\{[0-9a-fA-F]+\\}|.)|\"(?:[^\"\\\\\\n]|\\\\(?:['\"\\\\nrtbf/ ]|x[0-9a-fA-F]{2}|o[0-3][0-7]{2}|u[0-9a-fA-F]{4}|u\\{[0-9a-fA-F]+\\}|.))*\"|'(?:[^'\\\\\\n]|\\\\(?:['\"\\\\nrtbf/ ]|x[0-9a-fA-F]{2}|o[0-3][0-7]{2}|u[0-9a-fA-F]{4}|u\\{[0-9a-fA-F]+\\}|.))*'|\\{[^{}\\n]*\\})*\\}|\\\\(?:['\"\\\\nrtbf/ ]|x[0-9a-fA-F]{2}|o[0-3][0-7]{2}|u[0-9a-fA-F]{4}|u\\{[0-9a-fA-F]+\\}|.))*\""
     },
     "bytes": {
       "name": "string.quoted.double.bytes.moonbit",
@@ -363,10 +369,10 @@
     },
     "ident": {
       "name": "variable.other.readwrite.moonbit",
-      "match": "[a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*"
+      "match": "[a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*"
     },
     "simple-type": {
-      "match": "[a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*",
+      "match": "[a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*",
       "name": "entity.name.type.moonbit"
     },
     "type-paren": {
@@ -380,7 +386,7 @@
     },
     "type-object-member": {
       "name": "meta.type.annotation.member.moonbit",
-      "begin": "(#?[a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(\\??)(\\s*:)",
+      "begin": "(#?[a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(\\??)(\\s*:)",
       "beginCaptures": {
         "1": {
           "name": "variable.object.property.moonbit"
@@ -472,7 +478,7 @@
       ]
     },
     "fn-definition": {
-      "match": "\\b(fn)\\s+([a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
+      "match": "\\b(fn)\\s+([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
       "captures": {
         "1": {
           "name": "storage.type.function.moonbit"
@@ -503,7 +509,7 @@
           "name": "keyword.operator.rest.moonbit"
         },
         {
-          "match": "([a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(\\s*)(:)",
+          "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(\\s*)(:)",
           "captures": {
             "1": {
               "name": "variable.object.property.moonbit"
@@ -523,7 +529,7 @@
           "include": "#const-bind-array"
         },
         {
-          "match": "([a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
+          "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
           "name": "variable.other.constant.moonbit"
         },
         {
@@ -548,7 +554,7 @@
           "include": "#const-bind-array"
         },
         {
-          "match": "([a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
+          "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
           "name": "variable.other.constant.moonbit"
         },
         {
@@ -602,7 +608,7 @@
           "name": "keyword.operator.rest.moonbit"
         },
         {
-          "match": "([a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(\\s*)(:)",
+          "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(\\s*)(:)",
           "captures": {
             "1": {
               "name": "variable.object.property.moonbit"
@@ -622,7 +628,7 @@
           "include": "#mut-bind-array"
         },
         {
-          "match": "([a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
+          "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
           "name": "variable.other.readwrite.moonbit"
         },
         {
@@ -647,7 +653,7 @@
           "include": "#mut-bind-array"
         },
         {
-          "match": "([a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
+          "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
           "name": "variable.other.readwrite.moonbit"
         },
         {
@@ -696,6 +702,23 @@
     },
     "let-destructure": {
       "begin": "\\b(let)\\s+(?=[{\\[])",
+      "beginCaptures": {
+        "1": {
+          "name": "storage.type.moonbit"
+        }
+      },
+      "end": "(?<=[}\\]])",
+      "patterns": [
+        {
+          "include": "#mut-bind-object"
+        },
+        {
+          "include": "#mut-bind-array"
+        }
+      ]
+    },
+    "letrec-destructure": {
+      "begin": "\\b(letrec)\\s+(?=[{\\[])",
       "beginCaptures": {
         "1": {
           "name": "storage.type.moonbit"
@@ -764,6 +787,23 @@
     },
     "enum-destructure": {
       "begin": "\\b(enum)\\s+(?=[{\\[])",
+      "beginCaptures": {
+        "1": {
+          "name": "storage.type.moonbit"
+        }
+      },
+      "end": "(?<=[}\\]])",
+      "patterns": [
+        {
+          "include": "#mut-bind-object"
+        },
+        {
+          "include": "#mut-bind-array"
+        }
+      ]
+    },
+    "enumview-destructure": {
+      "begin": "\\b(enumview)\\s+(?=[{\\[])",
       "beginCaptures": {
         "1": {
           "name": "storage.type.moonbit"
@@ -916,7 +956,7 @@
       ]
     },
     "function-call": {
-      "match": "([a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(?=\\s*\\()",
+      "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(?=\\s*\\()",
       "captures": {
         "1": {
           "name": "entity.name.function.moonbit"
@@ -924,7 +964,7 @@
       }
     },
     "object-method-key": {
-      "match": "([a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(?=\\s*:\\s*(?:\\w+\\s+)?[\\(])",
+      "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(?=\\s*:\\s*(?:\\w+\\s+)?[\\(])",
       "captures": {
         "1": {
           "name": "entity.name.function.moonbit"
@@ -932,7 +972,7 @@
       }
     },
     "method-call": {
-      "match": "(?<=[\\w\\]\\)])(\\.)\\s*([a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(?=\\s*\\()",
+      "match": "(?<=[\\w\\]\\)])(\\.)\\s*([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(?=\\s*\\()",
       "captures": {
         "1": {
           "name": "punctuation.accessor.moonbit"
@@ -954,7 +994,7 @@
       }
     },
     "property-access": {
-      "match": "(?<=[\\w\\]\\)])(\\.)\\s*([a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
+      "match": "(?<=[\\w\\]\\)])(\\.)\\s*([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
       "captures": {
         "1": {
           "name": "punctuation.accessor.moonbit"
@@ -1004,7 +1044,7 @@
     },
     "type-annotation-var": {
       "name": "meta.type.annotation.moonbit",
-      "begin": "\\b(let|const|type|struct|enum|extenum|suberror|typealias|traitalias|fnalias|trait|impl|test)\\s+([a-zA-Z_\\p{L}\\p{Nl}][a-zA-Z0-9_\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(\\s*:)",
+      "begin": "\\b(let|const|letrec|type|struct|enum|extenum|suberror|enumview|typealias|traitalias|fnalias|trait|impl|test)\\s+([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(\\s*:)",
       "beginCaptures": {
         "1": {
           "name": "storage.type.moonbit"
@@ -1016,7 +1056,7 @@
           "name": "keyword.operator.type.annotation.moonbit"
         }
       },
-      "end": "(?=[=;,])|^\\s*(?=if|else|match|guard|lexmatch|for|while|loop|in|break|continue|return|throw|defer|try|catch|import|using|fn|let|const|type|struct|enum|extenum|trait|impl|typealias|traitalias|fnalias|suberror|test|pub|priv|readonly|extern|mut|declare|nobreak)\\b",
+      "end": "(?=[=;,])|^\\s*(?=if|else|match|guard|lexmatch|for|while|loop|in|break|continue|return|throw|defer|try|catch|import|using|fn|let|letrec|const|type|struct|enum|enumview|extenum|trait|impl|typealias|traitalias|fnalias|suberror|test|pub|priv|readonly|extern|mut|declare|nobreak)\\b",
       "patterns": [
         {
           "include": "#type-inner"
@@ -1038,20 +1078,20 @@
         }
       ]
     },
+    "scope-keyword-other": {
+      "match": "\\b(_|Array|FixedArray|Option|Result|Json|with|where|all|open|derive|and)\\b",
+      "name": "keyword.other.moonbit"
+    },
     "scope-support-type-primitive": {
       "match": "\\b(Unit|Bool|Byte|Char|Int|Int64|UInt|UInt64|Float|Double|String|Bytes)\\b",
       "name": "support.type.primitive.moonbit"
     },
-    "scope-keyword-other": {
-      "match": "\\b(Array|FixedArray|Option|Result|Json|_|with|all|open|derive|letrec|and)\\b",
-      "name": "keyword.other.moonbit"
-    },
     "scope-storage-modifier": {
-      "match": "\\b(async|noraise|pub|priv|readonly|extern|nobreak)\\b",
+      "match": "\\b(async|pub|priv|readonly|extern)\\b",
       "name": "storage.modifier.moonbit"
     },
     "scope-storage-modifier-accessibility": {
-      "match": "\\b(mut|declare)\\b(?=\\s+(?:\\.\\.\\.|[[:alpha:]_\\[*#{\"'0-9]))",
+      "match": "\\b(noraise|mut|nobreak|declare)\\b(?=\\s+(?:\\.\\.\\.|[[:alpha:]_\\[*#{\"'0-9]))",
       "name": "storage.modifier.moonbit"
     },
     "scope-keyword-control-flow": {
@@ -1115,7 +1155,7 @@
       "name": "keyword.control.exception.moonbit"
     },
     "scope-storage-type": {
-      "match": "\\b(let|const|type|struct|enum|extenum|suberror|typealias|traitalias|fnalias|trait|impl|test)\\b",
+      "match": "\\b(let|const|letrec|type|struct|enum|extenum|suberror|enumview|typealias|traitalias|fnalias|trait|impl|test)\\b",
       "name": "storage.type.moonbit"
     },
     "scope-keyword-control-import": {
@@ -1135,7 +1175,7 @@
       "name": "storage.type.function.arrow.moonbit"
     },
     "operator-overrides": {
-      "match": "(\\.\\.<=)|(>=\\.\\.)|(\\.\\.\\.)|(\\.\\.=)|(\\.\\.<)|(>\\.\\.)|(\\.\\.)|(\\+=)|(-=)|(\\*=)|(/=)|(%=)|(\\|>)|(<\\|)|(\\|\\|)|(&&)|(==)|(!=)|(<=)|(>=)|(=~)|(<<)|(>>)|(\\+)|(=)|(\\|)|(\\^)|(&)|(<)|(>)|(-)|(\\*)|(/)|(%)",
+      "match": "(\\.\\.<=)|(>=\\.\\.)|(\\.\\.\\.)|(\\.\\.<)|(\\.\\.=)|(>\\.\\.)|(\\.\\.)|(=~)|(\\+=)|(-=)|(\\*=)|(/=)|(%=)|(\\|>)|(<\\|)|(\\|\\|)|(&&)|(==)|(!=)|(<=)|(>=)|(<<)|(>>)|(&)|(\\+)|(=)|(-)|(\\|)|(\\^)|(<)|(>)|(\\*)|(/)|(%)",
       "captures": {
         "1": {
           "name": "keyword.operator.range.moonbit"
@@ -1159,7 +1199,7 @@
           "name": "keyword.operator.range.moonbit"
         },
         "8": {
-          "name": "keyword.operator.assignment.moonbit"
+          "name": "keyword.operator.comparison.moonbit"
         },
         "9": {
           "name": "keyword.operator.assignment.moonbit"
@@ -1174,19 +1214,19 @@
           "name": "keyword.operator.assignment.moonbit"
         },
         "13": {
-          "name": "keyword.operator.pipe.moonbit"
+          "name": "keyword.operator.assignment.moonbit"
         },
         "14": {
           "name": "keyword.operator.pipe.moonbit"
         },
         "15": {
-          "name": "keyword.operator.logical.moonbit"
+          "name": "keyword.operator.pipe.moonbit"
         },
         "16": {
           "name": "keyword.operator.logical.moonbit"
         },
         "17": {
-          "name": "keyword.operator.comparison.moonbit"
+          "name": "keyword.operator.logical.moonbit"
         },
         "18": {
           "name": "keyword.operator.comparison.moonbit"
@@ -1207,28 +1247,28 @@
           "name": "keyword.operator.bitwise.moonbit"
         },
         "24": {
-          "name": "keyword.operator.arithmetic.moonbit"
+          "name": "keyword.operator.bitwise.moonbit"
         },
         "25": {
-          "name": "keyword.operator.assignment.moonbit"
+          "name": "keyword.operator.arithmetic.moonbit"
         },
         "26": {
-          "name": "keyword.operator.bitwise.moonbit"
+          "name": "keyword.operator.assignment.moonbit"
         },
         "27": {
-          "name": "keyword.operator.bitwise.moonbit"
+          "name": "keyword.operator.arithmetic.moonbit"
         },
         "28": {
           "name": "keyword.operator.bitwise.moonbit"
         },
         "29": {
-          "name": "keyword.operator.comparison.moonbit"
+          "name": "keyword.operator.bitwise.moonbit"
         },
         "30": {
           "name": "keyword.operator.comparison.moonbit"
         },
         "31": {
-          "name": "keyword.operator.arithmetic.moonbit"
+          "name": "keyword.operator.comparison.moonbit"
         },
         "32": {
           "name": "keyword.operator.arithmetic.moonbit"
@@ -1270,19 +1310,19 @@
       "name": "punctuation.terminator.statement.moonbit"
     },
     "punctuation": {
-      "match": "\\?|~",
+      "match": "<\\+|<\\?|\\?|~",
       "name": "punctuation.moonbit"
     },
     "expr-scope-keyword-control-flow": {
       "match": "\\b(raise|throw|return)\\b",
       "name": "keyword.control.flow.moonbit"
     },
-    "expr-scope-keyword-other": {
-      "match": "\\b(with)\\b",
-      "name": "keyword.other.moonbit"
-    },
     "expr-scope-storage-modifier": {
       "match": "\\b(async)\\b",
+      "name": "storage.modifier.moonbit"
+    },
+    "expr-scope-storage-modifier-accessibility": {
+      "match": "\\b(noraise|nobreak)\\b(?=\\s+(?:\\.\\.\\.|[[:alpha:]_\\[*#{\"'0-9]))",
       "name": "storage.modifier.moonbit"
     },
     "expression": {
@@ -1387,10 +1427,13 @@
           "include": "#scope-keyword-control-exception"
         },
         {
-          "include": "#expr-scope-keyword-other"
+          "include": "#scope-keyword-other"
         },
         {
           "include": "#expr-scope-storage-modifier"
+        },
+        {
+          "include": "#expr-scope-storage-modifier-accessibility"
         },
         {
           "include": "#scope-storage-type-function"
