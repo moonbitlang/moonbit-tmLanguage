@@ -1,2 +1,4 @@
 node_modules
-artifacts
+artifacts/*
+!artifacts/previews/
+!artifacts/previews/**
