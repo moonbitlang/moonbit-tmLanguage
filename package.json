@@ -1,8 +1,20 @@
 {
+  "type": "module",
+  "engines": {
+    "node": ">=24.16.0"
+  },
   "scripts": {
-    "test": "vscode-tmgrammar-test -g grammars/moonbit.tmLanguage.json 'tests/**/*.mbt'"
+    "generate": "tsx scripts/generate.ts",
+    "generate:check": "tsx scripts/generate.ts --check",
+    "preview:highlight": "tsx scripts/render-preview.ts",
+    "test:parser": "tsx scripts/parser-smoke.ts",
+    "test:highlight": "vscode-tmgrammar-test -g grammars/moonbit.tmLanguage.json 'tests/**/*.mbt'",
+    "test": "npm run generate:check && npm run test:parser && npm run test:highlight"
   },
   "devDependencies": {
+    "tsx": "^4.22.4",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.3.2",
     "vscode-tmgrammar-test": "^0.1.3"
   }
 }

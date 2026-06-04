@@ -14,11 +14,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version-file: ".node-version"
+          node-version-file: ".nvmrc"
           cache: 'npm'
 
       - name: Install dependencies

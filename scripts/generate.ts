@@ -1,0 +1,128 @@
+import { readFile, writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { generateTmLanguage } from '../vendor/monogram/src/gen-tm.ts';
+import grammar from '../src/moonbit.monogram.ts';
+
+type TmPattern = {
+  include?: string;
+  name?: string;
+  match?: string;
+  begin?: string;
+  end?: string;
+  captures?: Record<string, TmPattern>;
+  beginCaptures?: Record<string, TmPattern>;
+  patterns?: TmPattern[];
+};
+
+type TmGrammar = {
+  repository: Record<string, TmPattern>;
+  patterns: TmPattern[];
+};
+
+function insertPatternsBefore(patterns: TmPattern[], beforeInclude: string, additions: TmPattern[]): void {
+  const existing = new Set(patterns.map(pattern => pattern.include).filter(Boolean));
+  const missing = additions.filter(pattern => !pattern.include || !existing.has(pattern.include));
+  if (missing.length === 0) return;
+
+  const index = patterns.findIndex(pattern => pattern.include === beforeInclude);
+  patterns.splice(index === -1 ? patterns.length : index, 0, ...missing);
+}
+
+function addMoonBitTextMateOverlays(tmLanguage: TmGrammar): TmGrammar {
+  // Monogram's generic TextMate inference is intentionally language-agnostic.
+  // MoonBit's conventional UpperCamelCase type names benefit from a small
+  // deterministic overlay, replacing the old handwritten type-name pattern while
+  // keeping grammars/moonbit.tmLanguage.json generated.
+  tmLanguage.repository['moonbit-typealias-declaration'] = {
+    match: '\\b(typealias)\\b\\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:\\s+(as)\\s+([a-zA-Z_][a-zA-Z0-9_]*))?',
+    captures: {
+      '1': { name: 'storage.type.moonbit' },
+      '2': { name: 'entity.name.type.moonbit' },
+      '3': { name: 'keyword.operator.expression.as.moonbit' },
+      '4': { name: 'entity.name.type.moonbit' },
+    },
+  };
+
+  tmLanguage.repository['moonbit-traitalias-declaration'] = {
+    match: '\\b(traitalias)\\b\\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:\\s*(=)\\s*([a-zA-Z_][a-zA-Z0-9_]*))?',
+    captures: {
+      '1': { name: 'storage.type.moonbit' },
+      '2': { name: 'entity.name.type.moonbit' },
+      '3': { name: 'keyword.operator.assignment.moonbit' },
+      '4': { name: 'entity.name.type.moonbit' },
+    },
+  };
+
+  tmLanguage.repository['moonbit-type-declaration'] = {
+    match: '\\b(type|struct|enum|extenum|suberror|trait)\\b\\s*(!)?\\s+([a-zA-Z_][a-zA-Z0-9_]*)',
+    captures: {
+      '1': { name: 'storage.type.moonbit' },
+      '2': { name: 'keyword.operator.moonbit' },
+      '3': { name: 'entity.name.type.moonbit' },
+    },
+  };
+
+  tmLanguage.repository['moonbit-qualified-type'] = {
+    match: '(@[a-zA-Z_][a-zA-Z0-9_]*(?:/[a-zA-Z_][a-zA-Z0-9_]*)*)(\\.)([A-Z][A-Za-z0-9_]*\\?*)',
+    captures: {
+      '1': { name: 'entity.name.namespace.moonbit' },
+      '2': { name: 'punctuation.accessor.moonbit' },
+      '3': { name: 'entity.name.type.moonbit' },
+    },
+  };
+
+  tmLanguage.repository['moonbit-type-name'] = {
+    match: '\\b(?<!@)([A-Z][A-Za-z0-9_]*\\?*)',
+    captures: {
+      '1': { name: 'entity.name.type.moonbit' },
+    },
+  };
+
+  tmLanguage.repository['moonbit-impl-header'] = {
+    name: 'meta.impl.header.moonbit',
+    begin: '\\b(impl)\\b',
+    beginCaptures: {
+      '1': { name: 'storage.type.moonbit' },
+    },
+    end: '(?=\\bwith\\b|[;{]|$)',
+    patterns: [
+      { match: '\\b(for)\\b', name: 'keyword.other.impl.moonbit' },
+      { include: '#moonbit-qualified-type' },
+      { include: '#moonbit-type-name' },
+      { include: '#scope-support-type-primitive' },
+      { include: '#scope-support-class' },
+      { include: '#scope-punctuation-separator-colon' },
+      { include: '#scope-punctuation-separator-comma' },
+      { include: '#scope-punctuation-bracket-square' },
+      { include: '#scope-punctuation-accessor' },
+    ],
+  };
+
+  insertPatternsBefore(tmLanguage.patterns, '#scope-storage-type', [
+    { include: '#moonbit-impl-header' },
+    { include: '#moonbit-typealias-declaration' },
+    { include: '#moonbit-traitalias-declaration' },
+    { include: '#moonbit-type-declaration' },
+    { include: '#moonbit-qualified-type' },
+    { include: '#moonbit-type-name' },
+  ]);
+
+  return tmLanguage;
+}
+
+const outPath = resolve('grammars/moonbit.tmLanguage.json');
+const tmLanguage = addMoonBitTextMateOverlays(generateTmLanguage(grammar, grammar.name) as TmGrammar);
+const generated = JSON.stringify(tmLanguage, null, 2) + '\n';
+const check = process.argv.includes('--check');
+
+if (check) {
+  const current = await readFile(outPath, 'utf8');
+  if (current !== generated) {
+    console.error(`${outPath} is out of date. Run npm run generate.`);
+    process.exit(1);
+  }
+  console.log(`${outPath} is up to date.`);
+} else {
+  await writeFile(outPath, generated);
+  console.log(`Generated ${outPath}.`);
+}
