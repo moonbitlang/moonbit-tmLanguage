@@ -337,9 +337,13 @@ const TraitBody = rule($ => [
   [';'],
 ]);
 
+const ImplWithType = rule($ => [
+  Type,
+]);
+
 const ImplDecl = rule($ => [
   [many(Attribute), opt(Visibility), 'impl', opt(TypeParams), opt(TypeName, 'for'), Type, 'with', ImplBody],
-  [many(Attribute), opt(Visibility), 'impl', opt(TypeParams), opt(TypeName, 'for'), Type, 'with', Type, ImplBody],
+  [many(Attribute), opt(Visibility), 'impl', opt(TypeParams), opt(TypeName, 'for'), Type, 'with', ImplWithType, ImplBody],
   [many(Attribute), opt(Visibility), 'impl', opt(TypeParams), opt(TypeName, 'for'), Type, ImplBody],
   [many(Attribute), opt(Visibility), 'impl', TypeName, opt(TypeParams), opt(Params), opt(ReturnType), DeclBody],
 ]);
@@ -474,6 +478,7 @@ export default defineGrammar({
     TraitDecl,
     TraitMethod,
     TraitBody,
+    ImplWithType,
     ImplDecl,
     ImplBody,
     ImportDecl,

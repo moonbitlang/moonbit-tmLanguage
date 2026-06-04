@@ -46,6 +46,7 @@ function colorFor(scopes: string[]): string {
   if (scope.includes('storage.modifier')) return '#569CD6';
   if (scope.includes('storage.type.function')) return '#569CD6';
   if (scope.includes('storage.type')) return '#4EC9B0';
+  if (scope.includes('entity.name.type')) return '#4EC9B0';
   if (scope.includes('support.type.primitive')) return '#4EC9B0';
   if (scope.includes('support.class')) return '#4EC9B0';
   if (scope.includes('entity.name.function')) return '#DCDCAA';
