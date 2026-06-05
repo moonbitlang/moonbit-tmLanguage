@@ -1000,7 +1000,7 @@
           "name": "punctuation.accessor.moonbit"
         },
         "2": {
-          "name": "entity.other.property.moonbit"
+          "name": "variable.other.property.moonbit"
         }
       }
     },

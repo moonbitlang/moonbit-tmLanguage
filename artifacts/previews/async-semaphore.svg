@@ -211,13 +211,13 @@
     <text x="94.4" y="703" fill="#3B3B3B" font-size="15"> </text>
     <text x="103.0" y="703" fill="#001080" font-size="15">self</text>
     <text x="137.4" y="703" fill="#3B3B3B" font-size="15">.</text>
-    <text x="146.0" y="703" fill="#3B3B3B" font-size="15">value</text>
+    <text x="146.0" y="703" fill="#001080" font-size="15">value</text>
     <text x="189.0" y="703" fill="#3B3B3B" font-size="15"> </text>
     <text x="197.6" y="703" fill="#000000" font-size="15">&gt;=</text>
     <text x="214.8" y="703" fill="#3B3B3B" font-size="15"> </text>
     <text x="223.4" y="703" fill="#001080" font-size="15">self</text>
     <text x="257.8" y="703" fill="#3B3B3B" font-size="15">.</text>
-    <text x="266.4" y="703" fill="#3B3B3B" font-size="15">size</text>
+    <text x="266.4" y="703" fill="#001080" font-size="15">size</text>
     <text x="300.8" y="703" fill="#3B3B3B" font-size="15"> </text>
     <text x="309.4" y="703" fill="#3B3B3B" font-size="15">{</text>
     <text x="26" y="725" fill="#6E7681" font-size="15">32</text>
@@ -237,7 +237,7 @@
     <text x="120.2" y="769" fill="#3B3B3B" font-size="15"> </text>
     <text x="128.8" y="769" fill="#001080" font-size="15">self</text>
     <text x="163.2" y="769" fill="#3B3B3B" font-size="15">.</text>
-    <text x="171.8" y="769" fill="#3B3B3B" font-size="15">waiters</text>
+    <text x="171.8" y="769" fill="#001080" font-size="15">waiters</text>
     <text x="232.0" y="769" fill="#3B3B3B" font-size="15">.</text>
     <text x="240.6" y="769" fill="#795E26" font-size="15">pop_front</text>
     <text x="318.0" y="769" fill="#3B3B3B" font-size="15">(</text>
@@ -257,7 +257,7 @@
     <text x="111.6" y="791" fill="#3B3B3B" font-size="15"> </text>
     <text x="120.2" y="791" fill="#001080" font-size="15">waiter</text>
     <text x="171.8" y="791" fill="#3B3B3B" font-size="15">.</text>
-    <text x="180.4" y="791" fill="#3B3B3B" font-size="15">coro</text>
+    <text x="180.4" y="791" fill="#001080" font-size="15">coro</text>
     <text x="214.8" y="791" fill="#3B3B3B" font-size="15"> </text>
     <text x="223.4" y="791" fill="#0000FF" font-size="15">is</text>
     <text x="240.6" y="791" fill="#3B3B3B" font-size="15"> </text>
@@ -271,7 +271,7 @@
     <text x="60.0" y="813" fill="#3B3B3B" font-size="15">      </text>
     <text x="111.6" y="813" fill="#001080" font-size="15">waiter</text>
     <text x="163.2" y="813" fill="#3B3B3B" font-size="15">.</text>
-    <text x="171.8" y="813" fill="#3B3B3B" font-size="15">acquired</text>
+    <text x="171.8" y="813" fill="#001080" font-size="15">acquired</text>
     <text x="240.6" y="813" fill="#3B3B3B" font-size="15"> </text>
     <text x="249.2" y="813" fill="#000000" font-size="15">=</text>
     <text x="257.8" y="813" fill="#3B3B3B" font-size="15"> </text>
@@ -300,7 +300,7 @@
     <text x="60.0" y="923" fill="#3B3B3B" font-size="15">    </text>
     <text x="94.4" y="923" fill="#001080" font-size="15">self</text>
     <text x="128.8" y="923" fill="#3B3B3B" font-size="15">.</text>
-    <text x="137.4" y="923" fill="#3B3B3B" font-size="15">value</text>
+    <text x="137.4" y="923" fill="#001080" font-size="15">value</text>
     <text x="180.4" y="923" fill="#3B3B3B" font-size="15"> </text>
     <text x="189.0" y="923" fill="#000000" font-size="15">+=</text>
     <text x="206.2" y="923" fill="#3B3B3B" font-size="15"> </text>
@@ -345,7 +345,7 @@
     <text x="94.4" y="1077" fill="#3B3B3B" font-size="15"> </text>
     <text x="103.0" y="1077" fill="#001080" font-size="15">self</text>
     <text x="137.4" y="1077" fill="#3B3B3B" font-size="15">.</text>
-    <text x="146.0" y="1077" fill="#3B3B3B" font-size="15">value</text>
+    <text x="146.0" y="1077" fill="#001080" font-size="15">value</text>
     <text x="189.0" y="1077" fill="#3B3B3B" font-size="15"> </text>
     <text x="197.6" y="1077" fill="#000000" font-size="15">&gt;</text>
     <text x="206.2" y="1077" fill="#3B3B3B" font-size="15"> </text>
@@ -356,7 +356,7 @@
     <text x="60.0" y="1099" fill="#3B3B3B" font-size="15">    </text>
     <text x="94.4" y="1099" fill="#001080" font-size="15">self</text>
     <text x="128.8" y="1099" fill="#3B3B3B" font-size="15">.</text>
-    <text x="137.4" y="1099" fill="#3B3B3B" font-size="15">value</text>
+    <text x="137.4" y="1099" fill="#001080" font-size="15">value</text>
     <text x="180.4" y="1099" fill="#3B3B3B" font-size="15"> </text>
     <text x="189.0" y="1099" fill="#000000" font-size="15">-=</text>
     <text x="206.2" y="1099" fill="#3B3B3B" font-size="15"> </text>
@@ -401,7 +401,7 @@
     <text x="60.0" y="1165" fill="#3B3B3B" font-size="15">    </text>
     <text x="94.4" y="1165" fill="#001080" font-size="15">self</text>
     <text x="128.8" y="1165" fill="#3B3B3B" font-size="15">.</text>
-    <text x="137.4" y="1165" fill="#3B3B3B" font-size="15">waiters</text>
+    <text x="137.4" y="1165" fill="#001080" font-size="15">waiters</text>
     <text x="197.6" y="1165" fill="#3B3B3B" font-size="15">.</text>
     <text x="206.2" y="1165" fill="#795E26" font-size="15">push_back</text>
     <text x="283.6" y="1165" fill="#3B3B3B" font-size="15">(</text>
@@ -426,7 +426,7 @@
     <text x="146.0" y="1209" fill="#3B3B3B" font-size="15"> </text>
     <text x="154.6" y="1209" fill="#001080" font-size="15">waiter</text>
     <text x="206.2" y="1209" fill="#3B3B3B" font-size="15">.</text>
-    <text x="214.8" y="1209" fill="#3B3B3B" font-size="15">acquired</text>
+    <text x="214.8" y="1209" fill="#001080" font-size="15">acquired</text>
     <text x="283.6" y="1209" fill="#3B3B3B" font-size="15"> </text>
     <text x="292.2" y="1209" fill="#0000FF" font-size="15">=&gt;</text>
     <text x="309.4" y="1209" fill="#3B3B3B" font-size="15"> </text>
@@ -443,7 +443,7 @@
     <text x="60.0" y="1253" fill="#3B3B3B" font-size="15">        </text>
     <text x="128.8" y="1253" fill="#001080" font-size="15">waiter</text>
     <text x="180.4" y="1253" fill="#3B3B3B" font-size="15">.</text>
-    <text x="189.0" y="1253" fill="#3B3B3B" font-size="15">coro</text>
+    <text x="189.0" y="1253" fill="#001080" font-size="15">coro</text>
     <text x="223.4" y="1253" fill="#3B3B3B" font-size="15"> </text>
     <text x="232.0" y="1253" fill="#000000" font-size="15">=</text>
     <text x="240.6" y="1253" fill="#3B3B3B" font-size="15"> </text>
