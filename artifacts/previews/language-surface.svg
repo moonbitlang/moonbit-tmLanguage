@@ -130,8 +130,9 @@
     <text x="326.6" y="461" fill="#3B3B3B" font-size="15">(</text>
     <text x="335.2" y="461" fill="#A31515" font-size="15">&quot;</text>
     <text x="343.8" y="461" fill="#A31515" font-size="15">circle </text>
-    <text x="404.0" y="461" fill="#EE0000" font-size="15">\{</text>
-    <text x="421.2" y="461" fill="#A31515" font-size="15">radius}</text>
+    <text x="404.0" y="461" fill="#A31515" font-size="15">\{</text>
+    <text x="421.2" y="461" fill="#001080" font-size="15">radius</text>
+    <text x="472.8" y="461" fill="#A31515" font-size="15">}</text>
     <text x="481.4" y="461" fill="#A31515" font-size="15">&quot;</text>
     <text x="490.0" y="461" fill="#3B3B3B" font-size="15">)</text>
     <text x="26" y="483" fill="#6E7681" font-size="15">21</text>

@@ -30,8 +30,82 @@ function insertPatternsBefore(patterns: TmPattern[], beforeInclude: string, addi
   patterns.splice(index === -1 ? patterns.length : index, 0, ...missing);
 }
 
+function removePatternsByInclude(patterns: TmPattern[], includes: Set<string>): void {
+  for (let index = patterns.length - 1; index >= 0; index--) {
+    const include = patterns[index].include;
+    if (include && includes.has(include)) {
+      patterns.splice(index, 1);
+    }
+  }
+}
+
+function removeInvalidDeclarationDestructures(tmLanguage: TmGrammar): void {
+  const validDestructureRules = new Set(['let-destructure', 'const-destructure']);
+  const invalidDestructureRules = Object.keys(tmLanguage.repository)
+    .filter(key => key.endsWith('-destructure') && !validDestructureRules.has(key));
+  const invalidIncludes = new Set(invalidDestructureRules.map(key => `#${key}`));
+
+  removePatternsByInclude(tmLanguage.patterns, invalidIncludes);
+  for (const key of invalidDestructureRules) {
+    delete tmLanguage.repository[key];
+  }
+}
+
+function moonBitInterpolationPattern(): TmPattern {
+  return {
+    name: 'meta.embedded.expression.moonbit',
+    begin: String.raw`\\\{`,
+    beginCaptures: {
+      '0': { name: 'punctuation.definition.template-expression.begin.moonbit' },
+    },
+    end: String.raw`\}`,
+    endCaptures: {
+      '0': { name: 'punctuation.definition.template-expression.end.moonbit' },
+    },
+    patterns: [
+      { include: '#moonbit-interpolation-braces' },
+      { include: '$self' },
+    ],
+  };
+}
+
+function addMoonBitStringInterpolation(tmLanguage: TmGrammar): void {
+  tmLanguage.repository['moonbit-interpolation-braces'] = {
+    begin: String.raw`\{`,
+    beginCaptures: {
+      '0': { name: 'punctuation.definition.block.moonbit' },
+    },
+    end: String.raw`\}`,
+    endCaptures: {
+      '0': { name: 'punctuation.definition.block.moonbit' },
+    },
+    patterns: [
+      { include: '#moonbit-interpolation-braces' },
+      { include: '$self' },
+    ],
+  };
+
+  const interpolationPattern = moonBitInterpolationPattern();
+  const stringDouble = tmLanguage.repository['string-double'];
+  if (stringDouble?.patterns) {
+    stringDouble.patterns.unshift(interpolationPattern);
+  }
+
+  tmLanguage.repository['multilineinterp'] = {
+    name: 'string.quoted.other.multiline.interpolated.moonbit',
+    begin: String.raw`\$\|`,
+    beginCaptures: {
+      '0': { name: 'punctuation.definition.string.begin.moonbit' },
+    },
+    end: '$',
+    patterns: [moonBitInterpolationPattern()],
+  };
+}
+
 function addMoonBitTextMateOverlays(tmLanguage: TmGrammar): TmGrammar {
   tmLanguage.fileTypes = ['mbt', 'mbtx', 'mbtp'];
+  removeInvalidDeclarationDestructures(tmLanguage);
+  addMoonBitStringInterpolation(tmLanguage);
 
   // Monogram's generic TextMate inference is intentionally language-agnostic.
   // MoonBit's conventional UpperCamelCase type names benefit from a small

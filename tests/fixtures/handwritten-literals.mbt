@@ -11,6 +11,9 @@ fn literals {
 // <~~- string.regexp.moonbit
   $|hello \{name}
 // <~~- string.quoted.other.multiline.interpolated.moonbit
+//        ^^ punctuation.definition.template-expression.begin.moonbit
+//          ^^^^ variable.other.readwrite.moonbit
+//              ^ punctuation.definition.template-expression.end.moonbit
   #|raw line
 // <~~- string.quoted.other.multiline.moonbit
 }
