@@ -8,7 +8,7 @@
     "generate:check": "tsx scripts/generate.ts --check",
     "preview:highlight": "tsx scripts/render-preview.ts",
     "test:parser": "tsx scripts/parser-smoke.ts",
-    "test:highlight": "vscode-tmgrammar-test -g grammars/moonbit.tmLanguage.json 'tests/**/*.mbt'",
+    "test:highlight": "vscode-tmgrammar-test -g grammars/moonbit.tmLanguage.json -g grammars/moonbit-config.tmLanguage.json 'tests/**/*.mbt' 'tests/**/moon.pkg' 'tests/**/moon.mod'",
     "test": "npm run generate:check && npm run test:parser && npm run test:highlight"
   },
   "devDependencies": {
