@@ -1,0 +1,44 @@
+// SYNTAX TEST "source.moonbit" "proof surface"
+#proof_import("int.Int")
+// <- entity.name.function.decorator.moonbit
+fn MathInt::equal(self : MathInt, other : MathInt) -> Bool = "(=)"
+// <- storage.type.function.moonbit
+
+pub impl Eq for MathInt with equal(self, other) {
+// <- storage.modifier.moonbit
+//  ^^^^ storage.type.moonbit
+  self.equal(other)
+}
+
+pub predicate FixedArray::in_bounds(self : FixedArray[Int], i : Int) {
+// <- storage.modifier.moonbit
+//  ^^^^^^^^^ storage.type.function.moonbit
+  (0 <= i) && (i < self.length())
+}
+
+pub predicate sorted(xs : FixedArray[Int]) {
+  ∀ i : Int, ∃ j : Int, FixedArray::in_bounds(xs, i) → i <= j
+//^ keyword.operator.quantifier.moonbit
+//           ^ keyword.operator.quantifier.moonbit
+//                                                   ^ keyword.operator.logical.implication.moonbit
+}
+
+fn first(xs : FixedArray[Int]) -> Int where {
+  proof_require: sorted(xs),
+//^^^^^^^^^^^^^ keyword.other.proof-label.moonbit
+  proof_ensure: result => FixedArray::in_bounds(xs, result),
+//^^^^^^^^^^^^ keyword.other.proof-label.moonbit
+} {
+  proof_assert ∃ i : Int, FixedArray::in_bounds(xs, i)
+//^^^^^^^^^^^^ keyword.control.proof.moonbit
+  xs[0]
+}
+
+lemma first_in_bounds(xs : FixedArray[Int]) where {
+// <- storage.type.function.moonbit
+  proof_require: sorted(xs),
+  proof_ensure: FixedArray::in_bounds(xs, first(xs)),
+  proof_decrease: xs,
+} {
+  proof_assert sorted(xs)
+}

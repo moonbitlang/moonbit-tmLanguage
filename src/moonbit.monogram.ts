@@ -39,6 +39,12 @@ const AttributeName = token(/#[a-zA-Z_][a-zA-Z0-9_]*(?:\.[a-zA-Z_][a-zA-Z0-9_]*)
 const TryQuestion = token(/try\?/, { scope: 'keyword.control.exception' });
 const TryBang = token(/try!/, { scope: 'keyword.control.exception' });
 const LexmatchQuestion = token(/lexmatch\?/, { scope: 'keyword.control.conditional' });
+const Forall = token(/∀/, { scope: 'keyword.operator.quantifier' });
+const Exists = token(/∃/, { scope: 'keyword.operator.quantifier' });
+const Implies = token(/→/, { scope: 'keyword.operator.logical.implication' });
+const ProofLabel = token(/proof_(?:require|ensure|invariant|yield|decrease|reasoning|axiomatized)(?=\s*:)/, {
+  scope: 'keyword.other.proof-label',
+});
 
 const DotInt = token(/\.[0-9]+/, { scope: 'constant.numeric.integer.tuple-index' });
 const PackageName = token(new RegExp(String.raw`@${identStart}${identContinue}*(?:\/${identStart}${identContinue}*)*`), {
@@ -177,9 +183,14 @@ const RecordField = rule($ => [
   ['..', Expr],
   [MapKey, ':', Expr],
   [StringLiteral, ':', Expr],
+  [ProofLabel, ':', Expr],
   [Ident, ':', Expr],
   [Ident, '=', Expr],
   Ident,
+]);
+
+const ProofWhereClause = rule($ => [
+  ['where', '{', sep(RecordField, ','), '}'],
 ]);
 
 const MatchCase = rule($ => [
@@ -226,6 +237,8 @@ const RegexMatchItem = rule($ => [
 const Expr = rule($ => [
   Literal,
   SimplePath,
+  [Forall, Binder, ':', Type, ',', $],
+  [Exists, Binder, ':', Type, ',', $],
   ['&', Ident, '::', Ident],
   ['&', PackageName, '.', Ident, '::', Ident],
   [TypeName, '::', Ident],
@@ -236,6 +249,7 @@ const Expr = rule($ => [
   [prefix, $],
   [TryQuestion, $],
   [TryBang, $],
+  [$, Implies, $],
   [$, op, $],
   [$, '?', $, ':', $],
   [$, DotInt],
@@ -370,8 +384,8 @@ const FunName = rule($ => [
 ]);
 
 const FunDecl = rule($ => [
-  [many(Attribute), opt('declare'), opt('extern', opt(StringLiteral)), opt(Visibility), opt('async'), 'fn', opt(TypeParams), FunName, opt('!'), opt(TypeParams), opt(Params), opt(ReturnType), DeclBody],
-  [many(Attribute), opt('declare'), opt('extern', opt(StringLiteral)), opt(Visibility), opt('async'), 'fn', FunName, opt('!'), opt(TypeParams), opt(Params), opt(ReturnType), DeclBody],
+  [many(Attribute), opt('declare'), opt('extern', opt(StringLiteral)), opt(Visibility), opt('async'), 'fn', opt(TypeParams), FunName, opt('!'), opt(TypeParams), opt(Params), opt(ReturnType), opt(ProofWhereClause), DeclBody],
+  [many(Attribute), opt('declare'), opt('extern', opt(StringLiteral)), opt(Visibility), opt('async'), 'fn', FunName, opt('!'), opt(TypeParams), opt(Params), opt(ReturnType), opt(ProofWhereClause), DeclBody],
 ]);
 
 const DeclBody = rule($ => [
@@ -458,6 +472,7 @@ const ImplDecl = rule($ => [
 const ImplBody = rule($ => [
   ['{', many(alt(FunDecl, ValDecl, TypeDecl)), '}'],
   FunDecl,
+  [Ident, opt('!'), Params, opt(ReturnType), DeclBody],
   [';'],
 ]);
 
@@ -469,6 +484,19 @@ const ImportDecl = rule($ => [
 
 const TestDecl = rule($ => [
   [many(Attribute), opt('async'), 'test', opt(StringLiteral), opt(Params), Block],
+]);
+
+const PredicateDecl = rule($ => [
+  [many(Attribute), opt(Visibility), 'predicate', opt(TypeParams), FunName, opt('!'), opt(TypeParams), opt(Params), opt(ProofWhereClause), DeclBody],
+]);
+
+const LemmaDecl = rule($ => [
+  [many(Attribute), opt(Visibility), 'lemma', opt(TypeParams), FunName, opt('!'), opt(TypeParams), opt(Params), opt(ProofWhereClause), alt(Block, [';'])],
+]);
+
+const ProofStmt = rule($ => [
+  ['proof_assert', Expr],
+  ['proof_let', Binder, '=', Expr],
 ]);
 
 const ControlStmt = rule($ => [
@@ -485,6 +513,8 @@ const AssignStmt = rule($ => [
 ]);
 
 const Stmt = rule($ => [
+  PredicateDecl,
+  LemmaDecl,
   FunDecl,
   ValDecl,
   TypeDecl,
@@ -492,6 +522,7 @@ const Stmt = rule($ => [
   ImplDecl,
   ImportDecl,
   TestDecl,
+  ProofStmt,
   ControlStmt,
   AssignStmt,
   Expr,
@@ -515,6 +546,10 @@ export default defineGrammar({
     TryQuestion,
     TryBang,
     LexmatchQuestion,
+    Forall,
+    Exists,
+    Implies,
+    ProofLabel,
     DotInt,
     PackageName,
     Float,
@@ -565,6 +600,7 @@ export default defineGrammar({
     ArrayItem,
     MapKey,
     RecordField,
+    ProofWhereClause,
     MatchCase,
     ForBinding,
     LexPattern,
@@ -597,6 +633,9 @@ export default defineGrammar({
     ImplBody,
     ImportDecl,
     TestDecl,
+    PredicateDecl,
+    LemmaDecl,
+    ProofStmt,
     ControlStmt,
     AssignStmt,
     Stmt,
@@ -609,9 +648,10 @@ export default defineGrammar({
     'keyword.control.flow': ['return', 'raise', 'throw', 'defer'],
     'keyword.control.exception': ['try', 'catch'],
     'keyword.control.import': ['import', 'using'],
-    'storage.type.function': ['fn'],
+    'storage.type.function': ['fn', 'predicate', 'lemma'],
     'storage.type': ['let', 'letrec', 'const', 'type', 'struct', 'enum', 'enumview', 'extenum', 'trait', 'impl', 'typealias', 'traitalias', 'fnalias', 'suberror', 'test'],
     'storage.modifier': ['pub', 'priv', 'readonly', 'extern', 'mut', 'async', 'declare', 'noraise', 'nobreak'],
+    'keyword.control.proof': ['proof_assert', 'proof_let'],
     'keyword.operator.expression': ['as', 'is', 'not'],
     'keyword.operator.assignment': ['=', '+=', '-=', '*=', '/=', '%='],
     'keyword.operator.comparison': ['==', '!=', '<', '>', '<=', '>=', '=~'],

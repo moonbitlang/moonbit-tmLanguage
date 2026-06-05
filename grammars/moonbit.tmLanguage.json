@@ -154,6 +154,12 @@
       "include": "#scope-keyword-control-import"
     },
     {
+      "include": "#scope-keyword-control-proof"
+    },
+    {
+      "include": "#prooflabel"
+    },
+    {
       "include": "#scope-keyword-other"
     },
     {
@@ -209,6 +215,15 @@
     },
     {
       "include": "#property-access"
+    },
+    {
+      "include": "#forall"
+    },
+    {
+      "include": "#exists"
+    },
+    {
+      "include": "#implies"
     },
     {
       "include": "#operator-overrides"
@@ -280,6 +295,22 @@
     "lexmatchquestion": {
       "name": "keyword.control.conditional.moonbit",
       "match": "lexmatch\\?"
+    },
+    "forall": {
+      "name": "keyword.operator.quantifier.moonbit",
+      "match": "∀"
+    },
+    "exists": {
+      "name": "keyword.operator.quantifier.moonbit",
+      "match": "∃"
+    },
+    "implies": {
+      "name": "keyword.operator.logical.implication.moonbit",
+      "match": "→"
+    },
+    "prooflabel": {
+      "name": "keyword.other.proof-label.moonbit",
+      "match": "proof_(?:require|ensure|invariant|yield|decrease|reasoning|axiomatized)(?=\\s*:)"
     },
     "dotint": {
       "name": "constant.numeric.integer.tuple-index.moonbit",
@@ -1035,7 +1066,7 @@
           "name": "keyword.operator.expression.as.moonbit"
         }
       },
-      "end": "(?=[)}{\\],;=>]|\\b(?:as|if|else|match|guard|lexmatch|for|while|loop|in|break|continue|return|raise|throw|defer|try|catch|import|using|is|not)\\b)",
+      "end": "(?=[)}{\\],;=>]|\\b(?:as|if|else|match|guard|lexmatch|for|while|loop|in|break|continue|return|raise|throw|defer|try|catch|import|using|proof_assert|proof_let|is|not)\\b)",
       "patterns": [
         {
           "include": "#type-inner"
@@ -1056,7 +1087,7 @@
           "name": "keyword.operator.type.annotation.moonbit"
         }
       },
-      "end": "(?=[=;,])|^\\s*(?=if|else|match|guard|lexmatch|for|while|loop|in|break|continue|return|throw|defer|try|catch|import|using|fn|let|letrec|const|type|struct|enum|enumview|extenum|trait|impl|typealias|traitalias|fnalias|suberror|test|pub|priv|readonly|extern|mut|declare|nobreak)\\b",
+      "end": "(?=[=;,])|^\\s*(?=if|else|match|guard|lexmatch|for|while|loop|in|break|continue|return|throw|defer|try|catch|import|using|fn|predicate|lemma|let|letrec|const|type|struct|enum|enumview|extenum|trait|impl|typealias|traitalias|fnalias|suberror|test|pub|priv|readonly|extern|mut|declare|nobreak|proof_assert|proof_let)\\b",
       "patterns": [
         {
           "include": "#type-inner"
@@ -1079,7 +1110,7 @@
       ]
     },
     "scope-keyword-other": {
-      "match": "\\b(_|Array|FixedArray|Option|Result|Json|with|where|all|open|derive|and)\\b",
+      "match": "\\b(_|Array|FixedArray|Option|Result|Json|where|with|all|open|derive|and)\\b",
       "name": "keyword.other.moonbit"
     },
     "scope-support-type-primitive": {
@@ -1147,7 +1178,7 @@
       "name": "keyword.control.loop.moonbit"
     },
     "scope-storage-type-function": {
-      "match": "\\b(fn)\\b",
+      "match": "\\b(fn|predicate|lemma)\\b",
       "name": "storage.type.function.moonbit"
     },
     "scope-keyword-control-exception": {
@@ -1161,6 +1192,10 @@
     "scope-keyword-control-import": {
       "match": "\\b(import|using)\\b",
       "name": "keyword.control.import.moonbit"
+    },
+    "scope-keyword-control-proof": {
+      "match": "\\b(proof_assert|proof_let)\\b",
+      "name": "keyword.control.proof.moonbit"
     },
     "scope-support-class": {
       "match": "\\b(Eq|Compare|Hash|Show|Default|ToJson|FromJson|Error)\\b",
@@ -1427,6 +1462,9 @@
           "include": "#scope-keyword-control-exception"
         },
         {
+          "include": "#prooflabel"
+        },
+        {
           "include": "#scope-keyword-other"
         },
         {
@@ -1461,6 +1499,15 @@
         },
         {
           "include": "#property-access"
+        },
+        {
+          "include": "#forall"
+        },
+        {
+          "include": "#exists"
+        },
+        {
+          "include": "#implies"
         },
         {
           "include": "#operator-overrides"
