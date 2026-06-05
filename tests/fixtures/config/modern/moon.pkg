@@ -1,0 +1,35 @@
+// SYNTAX TEST "source.moonbit.config" "modern moon.pkg config"
+import {
+// <- keyword.control.import.moonbit.config
+  "moonbitlang/core/json" @json,
+//                        ^^^^^ entity.name.namespace.moonbit.config
+  "moonbitlang/core/internal/strconv" as @internal/strconv,
+//                                    ^^ keyword.operator.expression.moonbit.config
+} for "test"
+// ^^ keyword.control.context.moonbit.config
+
+warnings = "+unused_value-deprecated"
+// <- support.type.property-name.moonbit.config
+
+options(
+// <- support.function.moonbit.config
+  "is-main": true,
+//^^^^^^^^^ support.type.property-name.moonbit.config
+//           ^^^^ constant.language.boolean.true.moonbit.config
+  link: {
+//^^^^ support.type.property-name.moonbit.config
+    "wasm": {
+      "exports": [
+        "cabi_realloc:cabi_realloc",
+        "wasmExportAdd:docs:adder/add@0.1.0#add",
+      ],
+      "heap-start-address": 16,
+//                          ^^ constant.numeric.integer.moonbit.config
+    },
+  },
+)
+
+rule(name: "gen", command: "echo gen")
+// <- support.function.moonbit.config
+dev_build(rule: "gen", input: "input.txt", output: "output.txt")
+// <- support.function.moonbit.config

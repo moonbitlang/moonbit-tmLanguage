@@ -1,0 +1,14 @@
+// SYNTAX TEST "source.moonbit.config" "legacy moon.pkg config"
+import (
+// <- keyword.control.import.moonbit.config
+  p1 "basic_package/pkg1"
+  "basic_package/pkg2"
+)
+
+package std/fixedarray
+// <- storage.type.moonbit.config
+//      ^^^^^^^^^^^^^^ entity.name.namespace.moonbit.config
+
+import "extenum/base"
+// <- keyword.control.import.moonbit.config
+//     ^^^^^^^^^^^^^ string.quoted.double.moonbit.config

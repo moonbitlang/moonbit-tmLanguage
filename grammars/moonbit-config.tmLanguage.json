@@ -1,0 +1,503 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "moonbit-config",
+  "scopeName": "source.moonbit.config",
+  "patterns": [
+    {
+      "include": "#configlinecomment"
+    },
+    {
+      "include": "#moonbit-config-property-name"
+    },
+    {
+      "include": "#moonbit-config-module-header"
+    },
+    {
+      "include": "#configstring-double"
+    },
+    {
+      "include": "#configstring-single"
+    },
+    {
+      "include": "#module-destructure"
+    },
+    {
+      "include": "#package-destructure"
+    },
+    {
+      "include": "#configint"
+    },
+    {
+      "include": "#moonbit-config-alias-as"
+    },
+    {
+      "include": "#scope-keyword-operator-expression-as"
+    },
+    {
+      "include": "#scope-keyword-control-import"
+    },
+    {
+      "include": "#scope-keyword-control-context-for"
+    },
+    {
+      "include": "#scope-storage-type"
+    },
+    {
+      "include": "#scope-storage-type-module"
+    },
+    {
+      "include": "#scope-constant-language-boolean-true"
+    },
+    {
+      "include": "#scope-constant-language-boolean-false"
+    },
+    {
+      "include": "#scope-support-function"
+    },
+    {
+      "include": "#operator-overrides"
+    },
+    {
+      "include": "#scope-punctuation-separator-path"
+    },
+    {
+      "include": "#scope-punctuation-bracket-square"
+    },
+    {
+      "include": "#scope-punctuation-separator-comma"
+    },
+    {
+      "include": "#scope-punctuation-bracket-curly"
+    },
+    {
+      "include": "#scope-punctuation-separator-colon"
+    },
+    {
+      "include": "#scope-punctuation-bracket-round"
+    },
+    {
+      "include": "#scope-punctuation-terminator-statement"
+    },
+    {
+      "include": "#configident"
+    },
+    {
+      "include": "#configpackagealias"
+    }
+  ],
+  "repository": {
+    "configlinecomment": {
+      "name": "comment.line.double-slash.moonbit.config",
+      "match": "\\/\\/[^\\n]*"
+    },
+    "configpackagealias": {
+      "name": "entity.name.namespace.moonbit.config",
+      "match": "@[a-zA-Z_\\u0080-\\uFFFF][a-zA-Z0-9_\\u0080-\\uFFFF]*(?:\\/[a-zA-Z_\\u0080-\\uFFFF][a-zA-Z0-9_\\u0080-\\uFFFF]*)*"
+    },
+    "configstring-double": {
+      "name": "string.quoted.double.moonbit.config",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.moonbit.config"
+        }
+      },
+      "end": "\"|$",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.moonbit.config"
+        }
+      },
+      "patterns": [
+        {
+          "match": "\\\\(?:['\"\\\\nrtbf/ ]|x[0-9a-fA-F]{2}|o[0-3][0-7]{2}|u[0-9a-fA-F]{4}|u\\{[0-9a-fA-F]+\\}|.)",
+          "name": "constant.character.escape.moonbit.config"
+        }
+      ]
+    },
+    "configstring-single": {
+      "name": "string.quoted.single.moonbit.config",
+      "begin": "'",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.moonbit.config"
+        }
+      },
+      "end": "'|$",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.moonbit.config"
+        }
+      },
+      "patterns": [
+        {
+          "match": "\\\\(?:['\"\\\\nrtbf/ ]|x[0-9a-fA-F]{2}|o[0-3][0-7]{2}|u[0-9a-fA-F]{4}|u\\{[0-9a-fA-F]+\\}|.)",
+          "name": "constant.character.escape.moonbit.config"
+        }
+      ]
+    },
+    "configint": {
+      "name": "constant.numeric.integer.moonbit.config",
+      "match": "[0-9][0-9_]*"
+    },
+    "configident": {
+      "name": "variable.other.readwrite.moonbit.config",
+      "match": "[a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*"
+    },
+    "type-inner": {
+      "patterns": [
+        {
+          "include": "#simple-type"
+        }
+      ]
+    },
+    "bind-default": {
+      "begin": "(=)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.operator.assignment.moonbit.config"
+        }
+      },
+      "end": "(?=[,}\\])])",
+      "patterns": [
+        {
+          "include": "$self"
+        }
+      ]
+    },
+    "const-bind-prop": {
+      "patterns": [
+        {
+          "match": "(\\.\\.\\.)",
+          "name": "keyword.operator.rest.moonbit.config"
+        },
+        {
+          "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(\\s*)(:)",
+          "captures": {
+            "1": {
+              "name": "variable.object.property.moonbit.config"
+            },
+            "3": {
+              "name": "punctuation.destructuring.moonbit.config"
+            }
+          }
+        },
+        {
+          "include": "#bind-default"
+        },
+        {
+          "include": "#const-bind-object"
+        },
+        {
+          "include": "#const-bind-array"
+        },
+        {
+          "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
+          "name": "variable.other.constant.moonbit.config"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.comma.moonbit.config"
+        }
+      ]
+    },
+    "const-bind-elem": {
+      "patterns": [
+        {
+          "match": "(\\.\\.\\.)",
+          "name": "keyword.operator.rest.moonbit.config"
+        },
+        {
+          "include": "#bind-default"
+        },
+        {
+          "include": "#const-bind-object"
+        },
+        {
+          "include": "#const-bind-array"
+        },
+        {
+          "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
+          "name": "variable.other.constant.moonbit.config"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.comma.moonbit.config"
+        }
+      ]
+    },
+    "const-bind-object": {
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.binding-pattern.object.moonbit.config"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.binding-pattern.object.moonbit.config"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#const-bind-prop"
+        }
+      ]
+    },
+    "const-bind-array": {
+      "begin": "\\[",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.binding-pattern.array.moonbit.config"
+        }
+      },
+      "end": "\\]",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.binding-pattern.array.moonbit.config"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#const-bind-elem"
+        }
+      ]
+    },
+    "mut-bind-prop": {
+      "patterns": [
+        {
+          "match": "(\\.\\.\\.)",
+          "name": "keyword.operator.rest.moonbit.config"
+        },
+        {
+          "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)(\\s*)(:)",
+          "captures": {
+            "1": {
+              "name": "variable.object.property.moonbit.config"
+            },
+            "3": {
+              "name": "punctuation.destructuring.moonbit.config"
+            }
+          }
+        },
+        {
+          "include": "#bind-default"
+        },
+        {
+          "include": "#mut-bind-object"
+        },
+        {
+          "include": "#mut-bind-array"
+        },
+        {
+          "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
+          "name": "variable.other.readwrite.moonbit.config"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.comma.moonbit.config"
+        }
+      ]
+    },
+    "mut-bind-elem": {
+      "patterns": [
+        {
+          "match": "(\\.\\.\\.)",
+          "name": "keyword.operator.rest.moonbit.config"
+        },
+        {
+          "include": "#bind-default"
+        },
+        {
+          "include": "#mut-bind-object"
+        },
+        {
+          "include": "#mut-bind-array"
+        },
+        {
+          "match": "([a-zA-Z_\\u0080-\\uFFFF\\p{L}\\p{Nl}][a-zA-Z0-9_\\u0080-\\uFFFF\\p{L}\\p{Nl}\\p{Nd}\\p{Mn}\\p{Mc}\\p{Pc}]*)",
+          "name": "variable.other.readwrite.moonbit.config"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.comma.moonbit.config"
+        }
+      ]
+    },
+    "mut-bind-object": {
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.binding-pattern.object.moonbit.config"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.binding-pattern.object.moonbit.config"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#mut-bind-prop"
+        }
+      ]
+    },
+    "mut-bind-array": {
+      "begin": "\\[",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.binding-pattern.array.moonbit.config"
+        }
+      },
+      "end": "\\]",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.binding-pattern.array.moonbit.config"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#mut-bind-elem"
+        }
+      ]
+    },
+    "module-destructure": {
+      "begin": "\\b(module)\\s+(?=[{\\[])",
+      "beginCaptures": {
+        "1": {
+          "name": "storage.type.moonbit.config"
+        }
+      },
+      "end": "(?<=[}\\]])",
+      "patterns": [
+        {
+          "include": "#mut-bind-object"
+        },
+        {
+          "include": "#mut-bind-array"
+        }
+      ]
+    },
+    "package-destructure": {
+      "begin": "\\b(package)\\s+(?=[{\\[])",
+      "beginCaptures": {
+        "1": {
+          "name": "storage.type.moonbit.config"
+        }
+      },
+      "end": "(?<=[}\\]])",
+      "patterns": [
+        {
+          "include": "#mut-bind-object"
+        },
+        {
+          "include": "#mut-bind-array"
+        }
+      ]
+    },
+    "scope-constant-language-boolean-true": {
+      "match": "\\b(true)\\b",
+      "name": "constant.language.boolean.true.moonbit.config"
+    },
+    "scope-constant-language-boolean-false": {
+      "match": "\\b(false)\\b",
+      "name": "constant.language.boolean.false.moonbit.config"
+    },
+    "scope-keyword-operator-expression-as": {
+      "match": "\\b(as)\\b(?=\\s+[[:alpha:][:digit:]_\"({\\[]|\\s*$)",
+      "name": "keyword.operator.expression.moonbit.config"
+    },
+    "scope-keyword-control-import": {
+      "match": "\\b(import)\\b",
+      "name": "keyword.control.import.moonbit.config"
+    },
+    "scope-keyword-control-context-for": {
+      "match": "\\bfor\\b(?=\\s*[\"'])",
+      "name": "keyword.control.context.moonbit.config"
+    },
+    "scope-support-function": {
+      "match": "\\b(options|rule|dev_build)\\b",
+      "name": "support.function.moonbit.config"
+    },
+    "scope-storage-type": {
+      "match": "\\b(package)\\b",
+      "name": "storage.type.moonbit.config"
+    },
+    "scope-storage-type-module": {
+      "match": "\\bmodule\\b(?=\\s*[\"'])",
+      "name": "storage.type.moonbit.config"
+    },
+    "operator-overrides": {
+      "match": "(=)",
+      "captures": {
+        "1": {
+          "name": "keyword.operator.assignment.moonbit.config"
+        }
+      }
+    },
+    "scope-punctuation-separator-path": {
+      "match": "/",
+      "name": "punctuation.separator.path.moonbit.config"
+    },
+    "scope-punctuation-bracket-square": {
+      "match": "\\[|\\]",
+      "name": "punctuation.bracket.square.moonbit.config"
+    },
+    "scope-punctuation-separator-comma": {
+      "match": ",",
+      "name": "punctuation.separator.comma.moonbit.config"
+    },
+    "scope-punctuation-bracket-curly": {
+      "match": "\\{|\\}",
+      "name": "punctuation.bracket.curly.moonbit.config"
+    },
+    "scope-punctuation-separator-colon": {
+      "match": ":",
+      "name": "punctuation.separator.colon.moonbit.config"
+    },
+    "scope-punctuation-bracket-round": {
+      "match": "\\(|\\)",
+      "name": "punctuation.bracket.round.moonbit.config"
+    },
+    "scope-punctuation-terminator-statement": {
+      "match": ";",
+      "name": "punctuation.terminator.statement.moonbit.config"
+    },
+    "moonbit-config-property-name": {
+      "match": "((?:^|[,{(])\\s*)([A-Za-z_][A-Za-z0-9_]*|\"(?:[^\"\\\\\\n]|\\\\.)*\")(\\s*)([:=])",
+      "captures": {
+        "2": {
+          "name": "support.type.property-name.moonbit.config"
+        },
+        "4": {
+          "name": "keyword.operator.assignment.moonbit.config"
+        }
+      }
+    },
+    "moonbit-config-module-header": {
+      "match": "\\b(module|package)\\b\\s+((?:[A-Za-z_][A-Za-z0-9_]*)(?:/[A-Za-z_][A-Za-z0-9_]*)*|\"(?:[^\"\\\\\\n]|\\\\.)*\")",
+      "captures": {
+        "1": {
+          "name": "storage.type.moonbit.config"
+        },
+        "2": {
+          "name": "entity.name.namespace.moonbit.config"
+        }
+      }
+    },
+    "moonbit-config-alias-as": {
+      "match": "\\b(as)\\b(?=\\s*@)",
+      "captures": {
+        "1": {
+          "name": "keyword.operator.expression.moonbit.config"
+        }
+      }
+    }
+  },
+  "fileTypes": [
+    "moon.pkg",
+    "moon.mod"
+  ]
+}

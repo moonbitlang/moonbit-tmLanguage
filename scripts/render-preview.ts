@@ -5,7 +5,10 @@ import vsctm from 'vscode-textmate';
 
 const [sourceArg, outArg] = process.argv.slice(2);
 const fixtureRoot = resolve('tests/fixtures');
-const grammarPath = resolve('grammars/moonbit.tmLanguage.json');
+const grammarPaths = new Map([
+  ['source.moonbit', resolve('grammars/moonbit.tmLanguage.json')],
+  ['source.moonbit.config', resolve('grammars/moonbit-config.tmLanguage.json')],
+]);
 const wasmPath = resolve('node_modules/vscode-oniguruma/release/onig.wasm');
 
 const wasm = await readFile(wasmPath);
@@ -17,13 +20,15 @@ const registry = new vsctm.Registry({
     createOnigString: value => new oniguruma.OnigString(value),
   }),
   loadGrammar: async scopeName => {
-    if (scopeName !== 'source.moonbit') return null;
+    const grammarPath = grammarPaths.get(scopeName);
+    if (!grammarPath) return null;
     return vsctm.parseRawGrammar(await readFile(grammarPath, 'utf8'), grammarPath);
   },
 });
 
-const grammar = await registry.loadGrammar('source.moonbit');
-if (!grammar) throw new Error('Unable to load source.moonbit grammar.');
+function scopeForSource(path: string): string {
+  return path.endsWith('.mbt') ? 'source.moonbit' : 'source.moonbit.config';
+}
 
 function escapeXml(text: string): string {
   return text
@@ -113,6 +118,10 @@ function colorFor(scopes: string[]): string {
     ?? lightModern.editorForeground;
 }
 
+function isMoonBitFile(path: string): boolean {
+  return path.endsWith('.mbt') || path.endsWith('/moon.pkg') || path.endsWith('/moon.mod');
+}
+
 async function collectMoonBitFiles(dir: string): Promise<string[]> {
   const entries = await readdir(dir, { withFileTypes: true });
   const files: string[] = [];
@@ -121,7 +130,7 @@ async function collectMoonBitFiles(dir: string): Promise<string[]> {
     const fullPath = resolve(dir, entry.name);
     if (entry.isDirectory()) {
       files.push(...await collectMoonBitFiles(fullPath));
-    } else if (entry.name.endsWith('.mbt')) {
+    } else if (isMoonBitFile(fullPath)) {
       files.push(fullPath);
     }
   }
@@ -135,14 +144,24 @@ function withSvgExtension(path: string): string {
 
 function defaultSvgPathFor(sourcePath: string): string {
   if (sourcePath.startsWith(`${fixtureRoot}/`)) {
-    const fixtureRelativePath = relative(fixtureRoot, sourcePath).replace(/\.mbt$/, '.svg');
+    const relativePath = relative(fixtureRoot, sourcePath);
+    const fixtureRelativePath = relativePath.endsWith('.mbt')
+      ? relativePath.replace(/\.mbt$/, '.svg')
+      : `${relativePath}.svg`;
     return resolve('artifacts/previews', fixtureRelativePath);
   }
 
-  return resolve('artifacts', `${basename(sourcePath).replace(/\.mbt$/, '')}-preview.svg`);
+  const previewName = sourcePath.endsWith('.mbt')
+    ? `${basename(sourcePath).replace(/\.mbt$/, '')}-preview.svg`
+    : `${basename(sourcePath)}-preview.svg`;
+  return resolve('artifacts', previewName);
 }
 
 async function renderFile(sourcePath: string, svgPath: string): Promise<void> {
+  const scopeName = scopeForSource(sourcePath);
+  const grammar = await registry.loadGrammar(scopeName);
+  if (!grammar) throw new Error(`Unable to load ${scopeName} grammar.`);
+
   const source = (await readFile(sourcePath, 'utf8'))
     .split(/\r?\n/)
     .filter(line => !line.startsWith('// SYNTAX TEST') && !/^\/\/\s*(\^|<[~-]*-)/.test(line))

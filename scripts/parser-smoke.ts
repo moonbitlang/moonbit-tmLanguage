@@ -1,11 +1,26 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { createParser } from '../vendor/monogram/src/gen-parser.ts';
-import grammar from '../src/moonbit.monogram.ts';
+import configGrammar from '../src/moonbit-config.monogram.ts';
+import sourceGrammar from '../src/moonbit.monogram.ts';
 
-const { parse } = createParser(grammar);
+const sourceParser = createParser(sourceGrammar);
+const configParser = createParser(configGrammar);
 const fixtureRoot = resolve('tests/fixtures');
 const ignoredDirs = new Set(['.git', '_build', 'node_modules', 'target']);
+
+function isMoonBitFile(path: string): boolean {
+  return path.endsWith('.mbt') || path.endsWith('/moon.pkg') || path.endsWith('/moon.mod');
+}
+
+function fileKind(path: string): number {
+  // Keep the default official-root limit focused on extensionless config files.
+  return path.endsWith('/moon.pkg') || path.endsWith('/moon.mod') ? 0 : 1;
+}
+
+function parserFor(path: string): typeof sourceParser {
+  return path.endsWith('.mbt') ? sourceParser : configParser;
+}
 
 async function collectMoonBitFiles(dir: string): Promise<string[]> {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -16,9 +31,9 @@ async function collectMoonBitFiles(dir: string): Promise<string[]> {
       if (entry.name.startsWith('.') || ignoredDirs.has(entry.name)) continue;
       files.push(...await collectMoonBitFiles(full));
     }
-    else if (entry.name.endsWith('.mbt')) files.push(full);
+    else if (isMoonBitFile(full)) files.push(full);
   }
-  return files.sort();
+  return files.sort((a, b) => fileKind(a) - fileKind(b) || a.localeCompare(b));
 }
 
 async function parseFiles(files: string[], label: string): Promise<number> {
@@ -26,7 +41,7 @@ async function parseFiles(files: string[], label: string): Promise<number> {
   for (const file of files) {
     const code = await readFile(file, 'utf8');
     try {
-      parse(code);
+      parserFor(file).parse(code);
     } catch (error) {
       failed++;
       console.error(`FAIL ${label}: ${file}`);

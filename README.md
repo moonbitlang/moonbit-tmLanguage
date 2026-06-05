@@ -4,9 +4,12 @@ The TmLanguage grammar definition for the [MoonBit](https://www.moonbitlang.com)
 
 ## Development
 
-`grammars/moonbit.tmLanguage.json` is generated from `src/moonbit.monogram.ts` with
+`grammars/moonbit.tmLanguage.json` is generated from `src/moonbit.monogram.ts`,
+and `grammars/moonbit-config.tmLanguage.json` is generated from
+`src/moonbit-config.monogram.ts`, with
 [Monogram](https://github.com/johnsoncodehk/monogram), vendored as the
-`vendor/monogram` submodule.
+`vendor/monogram` submodule. The config grammar covers extensionless `moon.pkg`
+and `moon.mod` files.
 
 ```sh
 git submodule update --init --recursive
@@ -15,7 +18,8 @@ npm run generate
 npm test
 ```
 
-To render SVG previews of the generated highlighting for every fixture:
+To render SVG previews of the generated highlighting for every `.mbt`,
+`moon.pkg`, and `moon.mod` fixture:
 
 ```sh
 npm run preview:highlight
