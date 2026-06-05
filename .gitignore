@@ -1,4 +1,2 @@
 node_modules
-artifacts/*
-!artifacts/previews/
-!artifacts/previews/**
+AGENTS.md

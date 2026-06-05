@@ -78,6 +78,18 @@ function addMoonBitTextMateOverlays(tmLanguage: TmGrammar): TmGrammar {
     },
   };
 
+  // VS Code themes commonly color variable.other.property, while
+  // entity.other.property is mostly used for markup attributes.
+  tmLanguage.repository['property-access']!.captures!['2'] = {
+    name: 'variable.other.property.moonbit',
+  };
+
+  if (tmLanguage.repository['optional-property-access']?.captures) {
+    tmLanguage.repository['optional-property-access'].captures['2'] = {
+      name: 'variable.other.property.moonbit',
+    };
+  }
+
   tmLanguage.repository['moonbit-impl-header'] = {
     name: 'meta.impl.header.moonbit',
     begin: '\\b(impl)\\b',
