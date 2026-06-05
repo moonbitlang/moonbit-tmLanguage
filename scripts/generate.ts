@@ -12,11 +12,11 @@ type TmPattern = {
   end?: string;
   captures?: Record<string, TmPattern>;
   beginCaptures?: Record<string, TmPattern>;
+  endCaptures?: Record<string, TmPattern>;
   patterns?: TmPattern[];
 };
 
 type TmGrammar = {
-  fileTypes?: string[];
   repository: Record<string, TmPattern>;
   patterns: TmPattern[];
 };
@@ -30,136 +30,123 @@ function insertPatternsBefore(patterns: TmPattern[], beforeInclude: string, addi
   patterns.splice(index === -1 ? patterns.length : index, 0, ...missing);
 }
 
-function addMoonBitTextMateOverlays(tmLanguage: TmGrammar): TmGrammar {
-  tmLanguage.fileTypes = ['mbt', 'mbtx', 'mbtp'];
-
-  // Monogram's generic TextMate inference is intentionally language-agnostic.
-  // MoonBit's conventional UpperCamelCase type names benefit from a small
-  // deterministic overlay, replacing the old handwritten type-name pattern while
-  // keeping grammars/moonbit.tmLanguage.json generated.
-  tmLanguage.repository['moonbit-typealias-declaration'] = {
-    match: '\\b(typealias)\\b\\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:\\s+(as)\\s+([a-zA-Z_][a-zA-Z0-9_]*))?',
-    captures: {
-      '1': { name: 'storage.type.moonbit' },
-      '2': { name: 'entity.name.type.moonbit' },
-      '3': { name: 'keyword.operator.expression.as.moonbit' },
-      '4': { name: 'entity.name.type.moonbit' },
+function moonBitInterpolationPattern(): TmPattern {
+  return {
+    name: 'meta.embedded.expression.moonbit',
+    begin: String.raw`\\\{`,
+    beginCaptures: {
+      '0': { name: 'punctuation.definition.template-expression.begin.moonbit' },
     },
-  };
-
-  tmLanguage.repository['moonbit-traitalias-declaration'] = {
-    match: '\\b(traitalias)\\b\\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:\\s*(=)\\s*([a-zA-Z_][a-zA-Z0-9_]*))?',
-    captures: {
-      '1': { name: 'storage.type.moonbit' },
-      '2': { name: 'entity.name.type.moonbit' },
-      '3': { name: 'keyword.operator.assignment.moonbit' },
-      '4': { name: 'entity.name.type.moonbit' },
+    end: String.raw`\}`,
+    endCaptures: {
+      '0': { name: 'punctuation.definition.template-expression.end.moonbit' },
     },
+    patterns: [
+      { include: '#moonbit-interpolation-braces' },
+      { include: '$self' },
+    ],
   };
+}
 
-  tmLanguage.repository['moonbit-type-declaration'] = {
-    match: '\\b(type|struct|enum|extenum|suberror|trait)\\b\\s*(!)?\\s+([a-zA-Z_][a-zA-Z0-9_]*)',
-    captures: {
-      '1': { name: 'storage.type.moonbit' },
-      '2': { name: 'keyword.operator.moonbit' },
-      '3': { name: 'entity.name.type.moonbit' },
+function moonBitEscapePattern(): TmPattern {
+  return {
+    match: String.raw`\\(?:['"\\nrtbf/ ]|x[0-9a-fA-F]{2}|o[0-3][0-7]{2}|u[0-9a-fA-F]{4}|u\{[0-9a-fA-F]+\}|.)`,
+    name: 'constant.character.escape.moonbit',
+  };
+}
+
+function moonBitStringDelimiterScope(stringScope: string, edge: 'begin' | 'end'): TmPattern {
+  return {
+    name: `${stringScope}.moonbit punctuation.definition.string.${edge}.moonbit`,
+  };
+}
+
+function addMoonBitStringInterpolation(tmLanguage: TmGrammar): void {
+  tmLanguage.repository['moonbit-interpolation-braces'] = {
+    begin: String.raw`\{`,
+    beginCaptures: {
+      '0': { name: 'punctuation.definition.block.moonbit' },
     },
-  };
-
-  tmLanguage.repository['moonbit-qualified-type'] = {
-    match: '(@[a-zA-Z_][a-zA-Z0-9_]*(?:/[a-zA-Z_][a-zA-Z0-9_]*)*)(\\.)([A-Z][A-Za-z0-9_]*\\?*)',
-    captures: {
-      '1': { name: 'entity.name.namespace.moonbit' },
-      '2': { name: 'punctuation.accessor.moonbit' },
-      '3': { name: 'entity.name.type.moonbit' },
+    end: String.raw`\}`,
+    endCaptures: {
+      '0': { name: 'punctuation.definition.block.moonbit' },
     },
+    patterns: [
+      { include: '#moonbit-interpolation-braces' },
+      { include: '$self' },
+    ],
   };
 
-  tmLanguage.repository['moonbit-type-name'] = {
-    match: '\\b(?<!@)([A-Z][A-Za-z0-9_]*\\?*)',
-    captures: {
-      '1': { name: 'entity.name.type.moonbit' },
+  const interpolationPattern = moonBitInterpolationPattern();
+  tmLanguage.repository['string-double'] = {
+    begin: '"',
+    beginCaptures: {
+      '0': moonBitStringDelimiterScope('string.quoted.double', 'begin'),
     },
+    end: '"|$',
+    endCaptures: {
+      '0': moonBitStringDelimiterScope('string.quoted.double', 'end'),
+    },
+    patterns: [
+      interpolationPattern,
+      moonBitEscapePattern(),
+      { match: String.raw`[^"\\]+`, name: 'string.quoted.double.moonbit' },
+    ],
   };
 
-  // VS Code themes commonly color variable.other.property, while
-  // entity.other.property is mostly used for markup attributes.
-  tmLanguage.repository['property-access']!.captures!['2'] = {
-    name: 'variable.other.property.moonbit',
+  tmLanguage.repository['regexliteral'] = {
+    begin: String.raw`(re)(")`,
+    beginCaptures: {
+      '1': { name: 'string.regexp.moonbit' },
+      '2': moonBitStringDelimiterScope('string.regexp', 'begin'),
+    },
+    end: '"|$',
+    endCaptures: {
+      '0': moonBitStringDelimiterScope('string.regexp', 'end'),
+    },
+    patterns: [
+      interpolationPattern,
+      moonBitEscapePattern(),
+      { match: String.raw`(?:\\(?!\{)|[^"\\])+`, name: 'string.regexp.moonbit' },
+    ],
   };
 
-  if (tmLanguage.repository['optional-property-access']?.captures) {
-    tmLanguage.repository['optional-property-access'].captures['2'] = {
-      name: 'variable.other.property.moonbit',
-    };
-  }
+  tmLanguage.repository['multilineinterp'] = {
+    begin: String.raw`\$\|`,
+    beginCaptures: {
+      '0': moonBitStringDelimiterScope('string.quoted.other.multiline.interpolated', 'begin'),
+    },
+    end: '$',
+    patterns: [
+      moonBitInterpolationPattern(),
+      { match: String.raw`(?:\\(?!\{)|[^\\\n])+`, name: 'string.quoted.other.multiline.interpolated.moonbit' },
+    ],
+  };
+}
 
+function addMoonBitImplHeader(tmLanguage: TmGrammar): void {
   tmLanguage.repository['moonbit-impl-header'] = {
     name: 'meta.impl.header.moonbit',
-    begin: '\\b(impl)\\b',
+    begin: String.raw`\b(impl)\b`,
     beginCaptures: {
       '1': { name: 'storage.type.moonbit' },
     },
-    end: '(?=\\bwith\\b|[;{]|$)',
+    end: String.raw`(?=\bwith\b|[;{]|$)`,
     patterns: [
-      { match: '\\b(for)\\b', name: 'keyword.other.impl.moonbit' },
-      { include: '#moonbit-qualified-type' },
-      { include: '#moonbit-type-name' },
-      { include: '#scope-support-type-primitive' },
-      { include: '#scope-support-class' },
-      { include: '#scope-punctuation-separator-colon' },
-      { include: '#scope-punctuation-separator-comma' },
-      { include: '#scope-punctuation-bracket-square' },
-      { include: '#scope-punctuation-accessor' },
+      { match: String.raw`\b(for)\b`, name: 'keyword.other.impl.moonbit' },
+      { include: '#type-inner' },
+      { include: '$self' },
     ],
   };
 
   insertPatternsBefore(tmLanguage.patterns, '#scope-storage-type', [
     { include: '#moonbit-impl-header' },
-    { include: '#moonbit-typealias-declaration' },
-    { include: '#moonbit-traitalias-declaration' },
-    { include: '#moonbit-type-declaration' },
-    { include: '#moonbit-qualified-type' },
-    { include: '#moonbit-type-name' },
   ]);
-
-  return tmLanguage;
 }
 
-function addMoonBitConfigTextMateOverlays(tmLanguage: TmGrammar): TmGrammar {
-  tmLanguage.fileTypes = ['moon.pkg', 'moon.mod'];
-
-  tmLanguage.repository['moonbit-config-property-name'] = {
-    match: '((?:^|[,{(])\\s*)([A-Za-z_][A-Za-z0-9_]*|"(?:[^"\\\\\\n]|\\\\.)*")(\\s*)([:=])',
-    captures: {
-      '2': { name: 'support.type.property-name.moonbit.config' },
-      '4': { name: 'keyword.operator.assignment.moonbit.config' },
-    },
-  };
-
-  tmLanguage.repository['moonbit-config-module-header'] = {
-    match: '\\b(module|package)\\b\\s+((?:[A-Za-z_][A-Za-z0-9_]*)(?:/[A-Za-z_][A-Za-z0-9_]*)*|"(?:[^"\\\\\\n]|\\\\.)*")',
-    captures: {
-      '1': { name: 'storage.type.moonbit.config' },
-      '2': { name: 'entity.name.namespace.moonbit.config' },
-    },
-  };
-
-  tmLanguage.repository['moonbit-config-alias-as'] = {
-    match: '\\b(as)\\b(?=\\s*@)',
-    captures: {
-      '1': { name: 'keyword.operator.expression.moonbit.config' },
-    },
-  };
-
-  insertPatternsBefore(tmLanguage.patterns, '#configstring-double', [
-    { include: '#moonbit-config-property-name' },
-    { include: '#moonbit-config-module-header' },
-  ]);
-  insertPatternsBefore(tmLanguage.patterns, '#scope-keyword-operator-expression-as', [
-    { include: '#moonbit-config-alias-as' },
-  ]);
-
+function patchMoonBitTmLanguage(tmLanguage: TmGrammar): TmGrammar {
+  addMoonBitStringInterpolation(tmLanguage);
+  addMoonBitImplHeader(tmLanguage);
   return tmLanguage;
 }
 
@@ -167,7 +154,7 @@ const grammars = [
   {
     outPath: resolve('grammars/moonbit.tmLanguage.json'),
     generated: JSON.stringify(
-      addMoonBitTextMateOverlays(generateTmLanguage(sourceGrammar, sourceGrammar.name) as TmGrammar),
+      patchMoonBitTmLanguage(generateTmLanguage(sourceGrammar, sourceGrammar.name)),
       null,
       2,
     ) + '\n',
@@ -175,7 +162,7 @@ const grammars = [
   {
     outPath: resolve('grammars/moonbit-config.tmLanguage.json'),
     generated: JSON.stringify(
-      addMoonBitConfigTextMateOverlays(generateTmLanguage(configGrammar, configGrammar.name) as TmGrammar),
+      generateTmLanguage(configGrammar, configGrammar.name),
       null,
       2,
     ) + '\n',

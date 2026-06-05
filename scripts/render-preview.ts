@@ -27,7 +27,7 @@ const registry = new vsctm.Registry({
 });
 
 function scopeForSource(path: string): string {
-  return path.endsWith('.mbt') ? 'source.moonbit' : 'source.moonbit.config';
+  return path.endsWith('.mbt') || path.endsWith('.mbtp') ? 'source.moonbit' : 'source.moonbit.config';
 }
 
 function escapeXml(text: string): string {
@@ -119,7 +119,10 @@ function colorFor(scopes: string[]): string {
 }
 
 function isMoonBitFile(path: string): boolean {
-  return path.endsWith('.mbt') || path.endsWith('/moon.pkg') || path.endsWith('/moon.mod');
+  return path.endsWith('.mbt')
+    || path.endsWith('.mbtp')
+    || path.endsWith('/moon.pkg')
+    || path.endsWith('/moon.mod');
 }
 
 async function collectMoonBitFiles(dir: string): Promise<string[]> {
@@ -145,14 +148,14 @@ function withSvgExtension(path: string): string {
 function defaultSvgPathFor(sourcePath: string): string {
   if (sourcePath.startsWith(`${fixtureRoot}/`)) {
     const relativePath = relative(fixtureRoot, sourcePath);
-    const fixtureRelativePath = relativePath.endsWith('.mbt')
-      ? relativePath.replace(/\.mbt$/, '.svg')
+    const fixtureRelativePath = relativePath.endsWith('.mbt') || relativePath.endsWith('.mbtp')
+      ? relativePath.replace(/\.mbtp?$/, '.svg')
       : `${relativePath}.svg`;
     return resolve('artifacts/previews', fixtureRelativePath);
   }
 
-  const previewName = sourcePath.endsWith('.mbt')
-    ? `${basename(sourcePath).replace(/\.mbt$/, '')}-preview.svg`
+  const previewName = sourcePath.endsWith('.mbt') || sourcePath.endsWith('.mbtp')
+    ? `${basename(sourcePath).replace(/\.mbtp?$/, '')}-preview.svg`
     : `${basename(sourcePath)}-preview.svg`;
   return resolve('artifacts', previewName);
 }

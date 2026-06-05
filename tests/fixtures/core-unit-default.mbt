@@ -4,7 +4,9 @@
 /// same as `Unit::default`
 #deprecated("Use `Unit::default` instead")
 // <- entity.name.function.decorator.moonbit
-// <~~~~~~~~~~~~- string.quoted.double.moonbit
+//          ^ punctuation.definition.string.begin.moonbit
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.moonbit
+//                                      ^ punctuation.definition.string.end.moonbit
 pub fn default() -> Unit {
 // <- storage.modifier.moonbit
 //  ^^ storage.type.function.moonbit

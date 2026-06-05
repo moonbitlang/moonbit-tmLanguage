@@ -26,6 +26,9 @@ impl Drawable for Shape with {
   fn draw(self : Shape) -> Unit {
     match self {
       Circle(radius) => println("circle \{radius}")
+//                                      ^^ punctuation.definition.template-expression.begin.moonbit
+//                                        ^^^^^^ variable.other.readwrite.moonbit
+//                                              ^ punctuation.definition.template-expression.end.moonbit
       Rect({ x, y }, _) => println("rect")
     }
   }

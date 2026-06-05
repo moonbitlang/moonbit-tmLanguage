@@ -4,7 +4,9 @@
 /// Number-of-values constraint for an argument.
 #warnings("-deprecated_syntax-deprecated")
 // <- entity.name.function.decorator.moonbit
-// <~~~~~~~~~~- string.quoted.double.moonbit
+//        ^ punctuation.definition.string.begin.moonbit
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.moonbit
+//                                      ^ punctuation.definition.string.end.moonbit
 pub struct ValueRange {
 // <- storage.modifier.moonbit
 //  ^^^^^^ storage.type.moonbit

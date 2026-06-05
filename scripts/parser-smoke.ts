@@ -10,7 +10,10 @@ const fixtureRoot = resolve('tests/fixtures');
 const ignoredDirs = new Set(['.git', '_build', 'node_modules', 'target']);
 
 function isMoonBitFile(path: string): boolean {
-  return path.endsWith('.mbt') || path.endsWith('/moon.pkg') || path.endsWith('/moon.mod');
+  return path.endsWith('.mbt')
+    || path.endsWith('.mbtp')
+    || path.endsWith('/moon.pkg')
+    || path.endsWith('/moon.mod');
 }
 
 function fileKind(path: string): number {
@@ -19,7 +22,7 @@ function fileKind(path: string): number {
 }
 
 function parserFor(path: string): typeof sourceParser {
-  return path.endsWith('.mbt') ? sourceParser : configParser;
+  return path.endsWith('.mbt') || path.endsWith('.mbtp') ? sourceParser : configParser;
 }
 
 async function collectMoonBitFiles(dir: string): Promise<string[]> {

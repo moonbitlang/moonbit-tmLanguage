@@ -1,7 +1,9 @@
 // SYNTAX TEST "source.moonbit" "handwritten imports and package paths"
 import "ffi"
 // <- keyword.control.import.moonbit
-//     ^^^^^ string.quoted.double.moonbit
+//     ^ punctuation.definition.string.begin.moonbit
+//      ^^^ string.quoted.double.moonbit
+//         ^ punctuation.definition.string.end.moonbit
 
 using @moonbitlang/core/array(make)
 // <- keyword.control.import.moonbit

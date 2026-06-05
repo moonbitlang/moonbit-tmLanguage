@@ -6,7 +6,9 @@
 /// `Reverse[T]` is useful when you need to reverse the natural ordering of a type.
 #warnings("-deprecated_syntax")
 // <- entity.name.function.decorator.moonbit
-// <~~~~~~~~~~- string.quoted.double.moonbit
+//        ^ punctuation.definition.string.begin.moonbit
+//         ^^^^^^^^^^^^^^^^^^ string.quoted.double.moonbit
+//                           ^ punctuation.definition.string.end.moonbit
 pub(all) struct Reverse[T](T) derive(Eq, Show, Hash, @debug.Debug)
 // <- storage.modifier.moonbit
 //       ^^^^^^ storage.type.moonbit
