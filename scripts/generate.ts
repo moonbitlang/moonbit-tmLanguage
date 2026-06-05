@@ -31,6 +31,8 @@ function insertPatternsBefore(patterns: TmPattern[], beforeInclude: string, addi
 }
 
 function addMoonBitTextMateOverlays(tmLanguage: TmGrammar): TmGrammar {
+  tmLanguage.fileTypes = ['mbt', 'mbtx', 'mbtp'];
+
   // Monogram's generic TextMate inference is intentionally language-agnostic.
   // MoonBit's conventional UpperCamelCase type names benefit from a small
   // deterministic overlay, replacing the old handwritten type-name pattern while
