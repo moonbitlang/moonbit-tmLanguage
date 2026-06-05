@@ -250,7 +250,10 @@
     <text x="223.4" y="703" fill="#3B3B3B" font-size="15"> </text>
     <text x="232.0" y="703" fill="#000000" font-size="15">=</text>
     <text x="240.6" y="703" fill="#3B3B3B" font-size="15"> </text>
-    <text x="249.2" y="703" fill="#811F3F" font-size="15">re&quot;/\*&quot;</text>
+    <text x="249.2" y="703" fill="#811F3F" font-size="15">re</text>
+    <text x="266.4" y="703" fill="#811F3F" font-size="15">&quot;</text>
+    <text x="275.0" y="703" fill="#811F3F" font-size="15">/\*</text>
+    <text x="300.8" y="703" fill="#811F3F" font-size="15">&quot;</text>
     <text x="26" y="725" fill="#6E7681" font-size="15">32</text>
     <text x="60.0" y="725" fill="#0000FF" font-size="15">const</text>
     <text x="103.0" y="725" fill="#3B3B3B" font-size="15"> </text>
@@ -258,7 +261,11 @@
     <text x="206.2" y="725" fill="#3B3B3B" font-size="15"> </text>
     <text x="214.8" y="725" fill="#000000" font-size="15">=</text>
     <text x="223.4" y="725" fill="#3B3B3B" font-size="15"> </text>
-    <text x="232.0" y="725" fill="#811F3F" font-size="15">re&quot;\*/&quot;</text>
+    <text x="232.0" y="725" fill="#811F3F" font-size="15">re</text>
+    <text x="249.2" y="725" fill="#811F3F" font-size="15">&quot;</text>
+    <text x="257.8" y="725" fill="#EE0000" font-size="15">\*</text>
+    <text x="275.0" y="725" fill="#811F3F" font-size="15">/</text>
+    <text x="283.6" y="725" fill="#811F3F" font-size="15">&quot;</text>
     <text x="26" y="747" fill="#6E7681" font-size="15">33</text>
     <text x="60.0" y="747" fill="#0000FF" font-size="15">const</text>
     <text x="103.0" y="747" fill="#3B3B3B" font-size="15"> </text>
@@ -266,7 +273,10 @@
     <text x="189.0" y="747" fill="#3B3B3B" font-size="15"> </text>
     <text x="197.6" y="747" fill="#000000" font-size="15">=</text>
     <text x="206.2" y="747" fill="#3B3B3B" font-size="15"> </text>
-    <text x="214.8" y="747" fill="#811F3F" font-size="15">re&quot;[ \t]*&quot;</text>
+    <text x="214.8" y="747" fill="#811F3F" font-size="15">re</text>
+    <text x="232.0" y="747" fill="#811F3F" font-size="15">&quot;</text>
+    <text x="240.6" y="747" fill="#811F3F" font-size="15">[ \t]*</text>
+    <text x="292.2" y="747" fill="#811F3F" font-size="15">&quot;</text>
     <text x="26" y="769" fill="#6E7681" font-size="15">34</text>
     <text x="60.0" y="769" fill="#0000FF" font-size="15">const</text>
     <text x="103.0" y="769" fill="#3B3B3B" font-size="15"> </text>
@@ -274,7 +284,10 @@
     <text x="137.4" y="769" fill="#3B3B3B" font-size="15"> </text>
     <text x="146.0" y="769" fill="#000000" font-size="15">=</text>
     <text x="154.6" y="769" fill="#3B3B3B" font-size="15"> </text>
-    <text x="163.2" y="769" fill="#811F3F" font-size="15">re&quot;b&quot;</text>
+    <text x="163.2" y="769" fill="#811F3F" font-size="15">re</text>
+    <text x="180.4" y="769" fill="#811F3F" font-size="15">&quot;</text>
+    <text x="189.0" y="769" fill="#811F3F" font-size="15">b</text>
+    <text x="197.6" y="769" fill="#811F3F" font-size="15">&quot;</text>
     <text x="26" y="791" fill="#6E7681" font-size="15">35</text>
     <text x="60.0" y="791" fill="#0000FF" font-size="15">const</text>
     <text x="103.0" y="791" fill="#3B3B3B" font-size="15"> </text>
@@ -282,7 +295,10 @@
     <text x="163.2" y="791" fill="#3B3B3B" font-size="15"> </text>
     <text x="171.8" y="791" fill="#000000" font-size="15">=</text>
     <text x="180.4" y="791" fill="#3B3B3B" font-size="15"> </text>
-    <text x="189.0" y="791" fill="#811F3F" font-size="15">re&quot;bc&quot;</text>
+    <text x="189.0" y="791" fill="#811F3F" font-size="15">re</text>
+    <text x="206.2" y="791" fill="#811F3F" font-size="15">&quot;</text>
+    <text x="214.8" y="791" fill="#811F3F" font-size="15">bc</text>
+    <text x="232.0" y="791" fill="#811F3F" font-size="15">&quot;</text>
     <text x="26" y="813" fill="#6E7681" font-size="15">36</text>
     <text x="26" y="835" fill="#6E7681" font-size="15">37</text>
     <text x="60.0" y="835" fill="#0000FF" font-size="15">fn</text>
@@ -352,7 +368,7 @@
     <text x="352.4" y="945" fill="#3B3B3B" font-size="15"> </text>
     <text x="361.0" y="945" fill="#000000" font-size="15">:</text>
     <text x="369.6" y="945" fill="#3B3B3B" font-size="15"> </text>
-    <text x="378.2" y="945" fill="#0000FF" font-size="15">Array</text>
+    <text x="378.2" y="945" fill="#267F99" font-size="15">Array</text>
     <text x="421.2" y="945" fill="#3B3B3B" font-size="15">[</text>
     <text x="429.8" y="945" fill="#267F99" font-size="15">Int</text>
     <text x="455.6" y="945" fill="#3B3B3B" font-size="15">]</text>
@@ -515,7 +531,10 @@
     <text x="335.2" y="1187" fill="#267F99" font-size="15">BLANK_OPT</text>
     <text x="412.6" y="1187" fill="#3B3B3B" font-size="15"> </text>
     <text x="421.2" y="1187" fill="#3B3B3B" font-size="15">(</text>
-    <text x="429.8" y="1187" fill="#811F3F" font-size="15">re&quot;.*?&quot;</text>
+    <text x="429.8" y="1187" fill="#811F3F" font-size="15">re</text>
+    <text x="447.0" y="1187" fill="#811F3F" font-size="15">&quot;</text>
+    <text x="455.6" y="1187" fill="#811F3F" font-size="15">.*?</text>
+    <text x="481.4" y="1187" fill="#811F3F" font-size="15">&quot;</text>
     <text x="490.0" y="1187" fill="#3B3B3B" font-size="15"> </text>
     <text x="498.6" y="1187" fill="#0000FF" font-size="15">as</text>
     <text x="515.8" y="1187" fill="#3B3B3B" font-size="15"> </text>
@@ -551,7 +570,10 @@
     <text x="180.4" y="1275" fill="#3B3B3B" font-size="15"> </text>
     <text x="189.0" y="1275" fill="#3B3B3B" font-size="15">(</text>
     <text x="197.6" y="1275" fill="#3B3B3B" font-size="15">(</text>
-    <text x="206.2" y="1275" fill="#811F3F" font-size="15">re&quot;x&quot;</text>
+    <text x="206.2" y="1275" fill="#811F3F" font-size="15">re</text>
+    <text x="223.4" y="1275" fill="#811F3F" font-size="15">&quot;</text>
+    <text x="232.0" y="1275" fill="#811F3F" font-size="15">x</text>
+    <text x="240.6" y="1275" fill="#811F3F" font-size="15">&quot;</text>
     <text x="249.2" y="1275" fill="#3B3B3B" font-size="15"> </text>
     <text x="257.8" y="1275" fill="#000000" font-size="15">|</text>
     <text x="266.4" y="1275" fill="#3B3B3B" font-size="15"> </text>

@@ -28,6 +28,8 @@ const escape = String.raw`\\(?:['"\\nrtbf/ ]|x[0-9a-fA-F]{2}|o[0-3][0-7]{2}|u[0-
 const interpolatedChunk = String.raw`\\\{(?:[^{}\n"'\\]|${escape}|"(?:[^"\\\n]|${escape})*"|'(?:[^'\\\n]|${escape})*'|\{[^{}\n]*\})*\}`;
 const identStart = String.raw`[a-zA-Z_\u0080-\uFFFF]`;
 const identContinue = String.raw`[a-zA-Z0-9_\u0080-\uFFFF]`;
+const lowerIdentStart = String.raw`[a-z_\u0080-\uFFFF]`;
+const upperIdent = String.raw`[A-Z][A-Za-z0-9_]*\??`;
 
 // Comments and attributes come first so they cannot be split into punctuation plus identifiers.
 const DocComment = token(/\/\/\/[^\n]*/, { skip: true, scope: 'comment.line.documentation' });
@@ -49,6 +51,7 @@ const ProofLabel = token(/proof_(?:require|ensure|invariant|yield|decrease|reaso
 const DotInt = token(/\.[0-9]+/, { scope: 'constant.numeric.integer.tuple-index' });
 const PackageName = token(new RegExp(String.raw`@${identStart}${identContinue}*(?:\/${identStart}${identContinue}*)*`), {
   scope: 'entity.name.namespace',
+  operandStart: true,
 });
 const Float = token(new RegExp(`(?:${floatHex}|${floatDec})`), { scope: 'constant.numeric.float' });
 const Double = token(new RegExp(`(?:${doubleHex}|${doubleDec})`), { scope: 'constant.numeric.double' });
@@ -71,26 +74,28 @@ const MultilineInterp = token(/\$\|[^\n]*/, { scope: 'string.quoted.other.multil
 const MultilineString = token(/#\|[^\n]*/, { scope: 'string.quoted.other.multiline' });
 const Byte = token(new RegExp(String.raw`b'(?:${escape}|[^\\'\n])+'`), { scope: 'constant.character.byte' });
 const Char = token(new RegExp(String.raw`'(?:${escape}|[^\\'\n])+'`), { scope: 'constant.character' });
-const Ident = token(new RegExp(String.raw`${identStart}${identContinue}*`), { identifier: true });
+const UIdent = token(new RegExp(upperIdent), { scope: 'entity.name.type', typeName: true });
+const Ident = token(new RegExp(String.raw`${lowerIdentStart}${identContinue}*`), { identifier: true });
 
 const SimplePath = rule($ => [
   Ident,
   [PackageName, '.', Ident],
+  [PackageName, '.', UIdent],
   [$, '.', Ident],
 ]);
 
 const TypeName = rule($ => [
-  Ident,
-  ['&', Ident],
-  [PackageName, '.', Ident],
-  ['&', PackageName, '.', Ident],
-  [TypeName, '::', Ident],
+  UIdent,
+  ['&', UIdent],
+  [PackageName, '.', UIdent],
+  ['&', PackageName, '.', UIdent],
+  [TypeName, '::', UIdent],
 ]);
 
 const TypeParam = rule($ => [
-  Ident,
+  UIdent,
   '_',
-  [Ident, ':', sep(Type, '+')],
+  [UIdent, ':', sep(Type, '+')],
 ]);
 
 const TypeParams = rule($ => [
@@ -167,6 +172,10 @@ const Literal = rule($ => [
   'false',
 ]);
 
+const MultilineLiteral = rule($ => [
+  [alt(MultilineString, MultilineInterp), many(alt(MultilineString, MultilineInterp))],
+]);
+
 const ArrayItem = rule($ => [
   ['..', Expr],
   Expr,
@@ -208,7 +217,7 @@ const LexPattern = rule($ => [
   RegexLiteral,
   StringLiteral,
   TypeName,
-  [PackageName, '.', Ident],
+  [PackageName, '.', UIdent],
   [RegexLiteral, 'as', Binder],
   [$, 'as', Binder],
   [$, '|', $],
@@ -235,14 +244,20 @@ const RegexMatchItem = rule($ => [
 ]);
 
 const Expr = rule($ => [
+  MultilineLiteral,
   Literal,
   SimplePath,
+  UIdent,
+  [UIdent, '::', Ident],
+  [UIdent, '::', UIdent],
   [Forall, Binder, ':', Type, ',', $],
   [Exists, Binder, ':', Type, ',', $],
-  ['&', Ident, '::', Ident],
-  ['&', PackageName, '.', Ident, '::', Ident],
+  ['&', UIdent, '::', Ident],
+  ['&', PackageName, '.', UIdent, '::', Ident],
   [TypeName, '::', Ident],
+  [TypeName, '::', UIdent],
   [TypeName, '::', PackageName, '.', Ident],
+  [TypeName, '::', PackageName, '.', UIdent],
   '_',
   ['...'],
   ['...', $],
@@ -326,9 +341,13 @@ const Pattern = rule($ => [
   ['-', Int],
   ['-', Float],
   ['-', Double],
-  [PackageName, '.', Ident],
+  [PackageName, '.', UIdent],
+  [UIdent, '::', Ident],
+  [UIdent, '::', UIdent],
   [TypeName, '::', Ident],
+  [TypeName, '::', UIdent],
   [TypeName, '::', PackageName, '.', Ident],
+  [TypeName, '::', PackageName, '.', UIdent],
   [$, 'as', Binder],
   [$, '|', $],
   [$, '..<', $],
@@ -337,8 +356,8 @@ const Pattern = rule($ => [
   ['(', sep($, ','), ')'],
   ['[', sep($, ','), ']'],
   ['{', sep(PatternField, ','), '}'],
-  [Ident, '(', sep(PatternArgument, ','), ')'],
-]);
+  [UIdent, '(', sep(PatternArgument, ','), ')'],
+], { binding: true });
 
 const PatternArgument = rule($ => [
   ['..'],
@@ -374,13 +393,16 @@ const Visibility = rule($ => [
 ]);
 
 const Derive = rule($ => [
-  ['derive', opt('(', sep(Ident, ','), ')')],
+  ['derive', opt('(', sep(TypeName, ','), ')')],
 ]);
 
 const FunName = rule($ => [
   Ident,
   [Ident, '::', Ident],
+  [UIdent, '::', Ident],
+  [UIdent, '::', UIdent],
   [TypeName, '::', Ident],
+  [TypeName, '::', UIdent],
 ]);
 
 const FunDecl = rule($ => [
@@ -404,23 +426,23 @@ const ValDecl = rule($ => [
 ]);
 
 const TypeHeader = rule($ => [
-  [many(Attribute), opt('declare'), opt(Visibility), alt('type', 'struct', 'enum', 'extenum', 'suberror'), opt('!'), Ident, opt(TypeParams)],
+  [many(Attribute), opt('declare'), opt(Visibility), alt('type', 'struct', 'enum', 'extenum', 'suberror'), opt('!'), UIdent, opt(TypeParams)],
 ]);
 
 const TypeDecl = rule($ => [
   [TypeHeader, TypeBody, opt(Derive)],
   [TypeHeader, '=', Type, opt(Derive)],
   [TypeHeader, opt(Derive)],
-  [many(Attribute), opt(Visibility), 'extenum', PackageName, '.', Ident, opt(TypeParams), '+=', '{', many(TypeMember), '}', opt(Derive)],
-  [many(Attribute), opt(Visibility), 'enumview', opt(TypeParams), Ident, '{', many(TypeMember), '}', 'for', Type, 'with', Ident, Params, Block],
+  [many(Attribute), opt(Visibility), 'extenum', PackageName, '.', UIdent, opt(TypeParams), '+=', '{', many(TypeMember), '}', opt(Derive)],
+  [many(Attribute), opt(Visibility), 'enumview', opt(TypeParams), UIdent, '{', many(TypeMember), '}', 'for', Type, 'with', Ident, Params, Block],
   [many(Attribute), opt('declare'), opt(Visibility), 'typealias', TypeAliasTarget],
-  [many(Attribute), opt(Visibility), 'traitalias', Ident, '=', TypeName],
+  [many(Attribute), opt(Visibility), 'traitalias', UIdent, '=', TypeName],
   [many(Attribute), opt(Visibility), 'fnalias', FunAliasTarget],
 ]);
 
 const TypeAliasTarget = rule($ => [
-  [TypeName, opt('as', Ident)],
-  [PackageName, '.', Ident, opt('as', Ident)],
+  [TypeName, opt('as', UIdent)],
+  [PackageName, '.', UIdent, opt('as', UIdent)],
   [PackageName, '.', '(', sep(TypeName, ','), ')'],
 ]);
 
@@ -438,14 +460,14 @@ const TypeBody = rule($ => [
 
 const TypeMember = rule($ => [
   [many(Attribute), opt(Visibility), opt('mut'), Ident, ':', Type],
-  [many(Attribute), Ident, '(', sep(Type, ','), ')'],
-  [many(Attribute), Ident, opt(Params), opt(':', Type)],
-  [many(Attribute), Ident, opt(TypeArgs), opt(Params)],
+  [many(Attribute), UIdent, '(', sep(Type, ','), ')'],
+  [many(Attribute), UIdent, opt(Params), opt(':', Type)],
+  [many(Attribute), UIdent, opt(TypeArgs), opt(Params)],
   ['..', StringLiteral],
 ]);
 
 const TraitDecl = rule($ => [
-  [many(Attribute), opt(Visibility), 'trait', Ident, opt(TypeParams), opt(':', sep(Type, '+')), TraitBody],
+  [many(Attribute), opt(Visibility), 'trait', UIdent, opt(TypeParams), opt(':', sep(Type, '+')), TraitBody],
 ]);
 
 const TraitMethod = rule($ => [
@@ -562,6 +584,7 @@ export default defineGrammar({
     MultilineString,
     Byte,
     Char,
+    UIdent,
     Ident,
   },
   prec: [
@@ -597,6 +620,7 @@ export default defineGrammar({
     AttributeArgument,
     Attribute,
     Literal,
+    MultilineLiteral,
     ArrayItem,
     MapKey,
     RecordField,
@@ -670,9 +694,8 @@ export default defineGrammar({
     'punctuation.terminator.statement': [';'],
     'constant.language.boolean.true': ['true'],
     'constant.language.boolean.false': ['false'],
-    'support.type.primitive': ['Unit', 'Bool', 'Byte', 'Char', 'Int', 'Int64', 'UInt', 'UInt64', 'Float', 'Double', 'String', 'Bytes'],
-    'support.class': ['Eq', 'Compare', 'Hash', 'Show', 'Default', 'ToJson', 'FromJson', 'Error'],
   },
+  fileTypes: ['mbt', 'mbtx', 'mbtp'],
   entry: Program,
   expression: Expr,
 });

@@ -12,23 +12,25 @@ const decimal = String.raw`${digit}[0-9_]*`;
 const escape = String.raw`\\(?:['"\\nrtbf/ ]|x[0-9a-fA-F]{2}|o[0-3][0-7]{2}|u[0-9a-fA-F]{4}|u\{[0-9a-fA-F]+\}|.)`;
 const identStart = String.raw`[a-zA-Z_\u0080-\uFFFF]`;
 const identContinue = String.raw`[a-zA-Z0-9_\u0080-\uFFFF]`;
-
 const ConfigLineComment = token(/\/\/[^\n]*/, {
   skip: true,
   scope: 'comment.line.double-slash',
 });
 const ConfigPackageAlias = token(new RegExp(String.raw`@${identStart}${identContinue}*(?:\/${identStart}${identContinue}*)*`), {
   scope: 'entity.name.namespace',
+  operandStart: true,
 });
 const ConfigString = token(new RegExp(String.raw`"(?:[^"\\\n]|${escape})*"`), {
   string: true,
   escape: new RegExp(escape),
   escapeValid: new RegExp(escape),
   scope: 'string.quoted.double',
+  propertyName: true,
 });
 const ConfigInt = token(new RegExp(decimal), { scope: 'constant.numeric.integer' });
 const ConfigIdent = token(new RegExp(String.raw`${identStart}${identContinue}*`), {
   identifier: true,
+  propertyName: true,
 });
 
 const ConfigBarePath = rule($ => [
@@ -89,11 +91,11 @@ const ConfigApplyDecl = rule($ => [
 
 const ConfigModuleDecl = rule($ => [
   ['module', ConfigString],
-]);
+], { namespace: true });
 
 const ConfigPackageDecl = rule($ => [
   ['package', ConfigBarePath],
-]);
+], { namespace: true });
 
 const ConfigStatement = rule($ => [
   ConfigImportDecl,
@@ -151,5 +153,6 @@ export default defineGrammar({
     'punctuation.separator.path': ['/'],
     'punctuation.terminator.statement': [';'],
   },
+  fileTypes: ['moon.pkg', 'moon.mod'],
   entry: ConfigProgram,
 });
