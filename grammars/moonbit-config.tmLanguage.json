@@ -11,9 +11,6 @@
       "include": "#configlinecomment"
     },
     {
-      "include": "#configstring-property-name"
-    },
-    {
       "include": "#configident-property-name"
     },
     {
@@ -144,10 +141,6 @@
     "configident": {
       "name": "variable.other.readwrite.moonbit.config",
       "match": "[a-zA-Z_\\u0080-\\uFFFF][a-zA-Z0-9_\\u0080-\\uFFFF]*"
-    },
-    "configstring-property-name": {
-      "match": "\"(?:[^\"\\\\\\n]|\\\\(?:['\"\\\\nrtbf/ ]|x[0-9a-fA-F]{2}|o[0-3][0-7]{2}|u[0-9a-fA-F]{4}|u\\{[0-9a-fA-F]+\\}|.))*\"(?=\\s*[:=])",
-      "name": "support.type.property-name.moonbit.config"
     },
     "configident-property-name": {
       "match": "[a-zA-Z_\\u0080-\\uFFFF][a-zA-Z0-9_\\u0080-\\uFFFF]*(?=\\s*[:=])",

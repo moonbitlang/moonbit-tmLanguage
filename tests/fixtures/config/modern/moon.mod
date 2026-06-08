@@ -12,7 +12,7 @@ warnings = "+test_unqualified_package"
 options(
 // <- support.function.moonbit.config
   "preferred-target": "wasm-gc",
-//^^^^^^^^^^^^^^^^^^ support.type.property-name.moonbit.config
+//^^^^^^^^^^^^^^^^^^ string.quoted.double.moonbit.config
   deps: {
     "moonbitlang/x": {
       "version": "0.1.0",

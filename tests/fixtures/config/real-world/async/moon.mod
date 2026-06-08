@@ -1,0 +1,21 @@
+// SYNTAX TEST "source.moonbit.config" "real-world async moon.mod"
+name = "moonbitlang/async"
+
+version = "0.19.2"
+
+readme = "README.md"
+
+repository = "https://github.com/moonbitlang/async"
+
+license = "Apache-2.0"
+
+keywords = [ ]
+
+description = "Asynchronous programming library for MoonBit"
+
+preferred_target = "native"
+
+options(
+  source: "src",
+  exclude: [ "test_directory", "test_keys" ],
+)

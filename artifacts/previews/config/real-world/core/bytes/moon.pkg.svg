@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="542" height="408" viewBox="0 0 542 408">
+  <rect width="100%" height="100%" rx="8" fill="#FFFFFF"/>
+  <g font-family="SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace" xml:space="preserve">
+    <text x="26" y="43" fill="#6E7681" font-size="15"> 1</text>
+    <text x="60.0" y="43" fill="#AF00DB" font-size="15">import</text>
+    <text x="111.6" y="43" fill="#3B3B3B" font-size="15"> </text>
+    <text x="120.2" y="43" fill="#3B3B3B" font-size="15">{</text>
+    <text x="26" y="65" fill="#6E7681" font-size="15"> 2</text>
+    <text x="60.0" y="65" fill="#3B3B3B" font-size="15">  </text>
+    <text x="77.2" y="65" fill="#A31515" font-size="15">&quot;</text>
+    <text x="85.8" y="65" fill="#A31515" font-size="15">moonbitlang/core/builtin</text>
+    <text x="292.2" y="65" fill="#A31515" font-size="15">&quot;</text>
+    <text x="300.8" y="65" fill="#3B3B3B" font-size="15">,</text>
+    <text x="26" y="87" fill="#6E7681" font-size="15"> 3</text>
+    <text x="60.0" y="87" fill="#3B3B3B" font-size="15">  </text>
+    <text x="77.2" y="87" fill="#A31515" font-size="15">&quot;</text>
+    <text x="85.8" y="87" fill="#A31515" font-size="15">moonbitlang/core/bytes/internal/regex_engine</text>
+    <text x="464.2" y="87" fill="#A31515" font-size="15">&quot;</text>
+    <text x="472.8" y="87" fill="#3B3B3B" font-size="15"> </text>
+    <text x="481.4" y="87" fill="#267F99" font-size="15">@re</text>
+    <text x="507.2" y="87" fill="#3B3B3B" font-size="15">,</text>
+    <text x="26" y="109" fill="#6E7681" font-size="15"> 4</text>
+    <text x="60.0" y="109" fill="#3B3B3B" font-size="15">}</text>
+    <text x="26" y="131" fill="#6E7681" font-size="15"> 5</text>
+    <text x="26" y="153" fill="#6E7681" font-size="15"> 6</text>
+    <text x="60.0" y="153" fill="#AF00DB" font-size="15">import</text>
+    <text x="111.6" y="153" fill="#3B3B3B" font-size="15"> </text>
+    <text x="120.2" y="153" fill="#3B3B3B" font-size="15">{</text>
+    <text x="26" y="175" fill="#6E7681" font-size="15"> 7</text>
+    <text x="60.0" y="175" fill="#3B3B3B" font-size="15">  </text>
+    <text x="77.2" y="175" fill="#A31515" font-size="15">&quot;</text>
+    <text x="85.8" y="175" fill="#A31515" font-size="15">moonbitlang/core/array</text>
+    <text x="275.0" y="175" fill="#A31515" font-size="15">&quot;</text>
+    <text x="283.6" y="175" fill="#3B3B3B" font-size="15">,</text>
+    <text x="26" y="197" fill="#6E7681" font-size="15"> 8</text>
+    <text x="60.0" y="197" fill="#3B3B3B" font-size="15">  </text>
+    <text x="77.2" y="197" fill="#A31515" font-size="15">&quot;</text>
+    <text x="85.8" y="197" fill="#A31515" font-size="15">moonbitlang/core/double</text>
+    <text x="283.6" y="197" fill="#A31515" font-size="15">&quot;</text>
+    <text x="292.2" y="197" fill="#3B3B3B" font-size="15">,</text>
+    <text x="26" y="219" fill="#6E7681" font-size="15"> 9</text>
+    <text x="60.0" y="219" fill="#3B3B3B" font-size="15">  </text>
+    <text x="77.2" y="219" fill="#A31515" font-size="15">&quot;</text>
+    <text x="85.8" y="219" fill="#A31515" font-size="15">moonbitlang/core/uint</text>
+    <text x="266.4" y="219" fill="#A31515" font-size="15">&quot;</text>
+    <text x="275.0" y="219" fill="#3B3B3B" font-size="15">,</text>
+    <text x="26" y="241" fill="#6E7681" font-size="15">10</text>
+    <text x="60.0" y="241" fill="#3B3B3B" font-size="15">  </text>
+    <text x="77.2" y="241" fill="#A31515" font-size="15">&quot;</text>
+    <text x="85.8" y="241" fill="#A31515" font-size="15">moonbitlang/core/uint64</text>
+    <text x="283.6" y="241" fill="#A31515" font-size="15">&quot;</text>
+    <text x="292.2" y="241" fill="#3B3B3B" font-size="15">,</text>
+    <text x="26" y="263" fill="#6E7681" font-size="15">11</text>
+    <text x="60.0" y="263" fill="#3B3B3B" font-size="15">  </text>
+    <text x="77.2" y="263" fill="#A31515" font-size="15">&quot;</text>
+    <text x="85.8" y="263" fill="#A31515" font-size="15">moonbitlang/core/test</text>
+    <text x="266.4" y="263" fill="#A31515" font-size="15">&quot;</text>
+    <text x="275.0" y="263" fill="#3B3B3B" font-size="15">,</text>
+    <text x="26" y="285" fill="#6E7681" font-size="15">12</text>
+    <text x="60.0" y="285" fill="#3B3B3B" font-size="15">  </text>
+    <text x="77.2" y="285" fill="#A31515" font-size="15">&quot;</text>
+    <text x="85.8" y="285" fill="#A31515" font-size="15">moonbitlang/core/quickcheck</text>
+    <text x="318.0" y="285" fill="#A31515" font-size="15">&quot;</text>
+    <text x="326.6" y="285" fill="#3B3B3B" font-size="15">,</text>
+    <text x="26" y="307" fill="#6E7681" font-size="15">13</text>
+    <text x="60.0" y="307" fill="#3B3B3B" font-size="15">  </text>
+    <text x="77.2" y="307" fill="#A31515" font-size="15">&quot;</text>
+    <text x="85.8" y="307" fill="#A31515" font-size="15">moonbitlang/core/json</text>
+    <text x="266.4" y="307" fill="#A31515" font-size="15">&quot;</text>
+    <text x="275.0" y="307" fill="#3B3B3B" font-size="15">,</text>
+    <text x="26" y="329" fill="#6E7681" font-size="15">14</text>
+    <text x="60.0" y="329" fill="#3B3B3B" font-size="15">  </text>
+    <text x="77.2" y="329" fill="#A31515" font-size="15">&quot;</text>
+    <text x="85.8" y="329" fill="#A31515" font-size="15">moonbitlang/core/float</text>
+    <text x="275.0" y="329" fill="#A31515" font-size="15">&quot;</text>
+    <text x="283.6" y="329" fill="#3B3B3B" font-size="15">,</text>
+    <text x="26" y="351" fill="#6E7681" font-size="15">15</text>
+    <text x="60.0" y="351" fill="#3B3B3B" font-size="15">  </text>
+    <text x="77.2" y="351" fill="#A31515" font-size="15">&quot;</text>
+    <text x="85.8" y="351" fill="#A31515" font-size="15">moonbitlang/core/debug</text>
+    <text x="275.0" y="351" fill="#A31515" font-size="15">&quot;</text>
+    <text x="283.6" y="351" fill="#3B3B3B" font-size="15">,</text>
+    <text x="26" y="373" fill="#6E7681" font-size="15">16</text>
+    <text x="60.0" y="373" fill="#3B3B3B" font-size="15">}</text>
+    <text x="68.6" y="373" fill="#3B3B3B" font-size="15"> </text>
+    <text x="77.2" y="373" fill="#AF00DB" font-size="15">for</text>
+    <text x="103.0" y="373" fill="#3B3B3B" font-size="15"> </text>
+    <text x="111.6" y="373" fill="#A31515" font-size="15">&quot;</text>
+    <text x="120.2" y="373" fill="#A31515" font-size="15">test</text>
+    <text x="154.6" y="373" fill="#A31515" font-size="15">&quot;</text>
+  </g>
+</svg>

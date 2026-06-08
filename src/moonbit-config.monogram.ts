@@ -25,7 +25,6 @@ const ConfigString = token(new RegExp(String.raw`"(?:[^"\\\n]|${escape})*"`), {
   escape: new RegExp(escape),
   escapeValid: new RegExp(escape),
   scope: 'string.quoted.double',
-  propertyName: true,
 });
 const ConfigInt = token(new RegExp(decimal), { scope: 'constant.numeric.integer' });
 const ConfigIdent = token(new RegExp(String.raw`${identStart}${identContinue}*`), {
