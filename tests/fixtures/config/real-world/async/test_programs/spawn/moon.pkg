@@ -1,0 +1,12 @@
+// SYNTAX TEST "source.moonbit.config" "real-world async spawn moon.pkg"
+import {
+  "moonbitlang/core/env",
+  "moonbitlang/async",
+  "moonbitlang/async/process",
+}
+
+supported_targets = "-all+native"
+
+options(
+  "is-main": true,
+)
