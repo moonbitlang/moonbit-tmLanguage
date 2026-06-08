@@ -14,7 +14,7 @@ warnings = "+unused_value-deprecated"
 options(
 // <- support.function.moonbit.config
   "is-main": true,
-//^^^^^^^^^ string.quoted.double.moonbit.config
+//^^^^^^^^^ support.type.property-name.moonbit.config
 //           ^^^^ constant.language.boolean.true.moonbit.config
   link: {
 //^^^^ support.type.property-name.moonbit.config

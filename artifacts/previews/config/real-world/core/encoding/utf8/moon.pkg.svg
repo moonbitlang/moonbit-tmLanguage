@@ -50,9 +50,7 @@
     <text x="154.6" y="263" fill="#3B3B3B" font-size="15">{</text>
     <text x="26" y="285" fill="#6E7681" font-size="15">12</text>
     <text x="60.0" y="285" fill="#3B3B3B" font-size="15">    </text>
-    <text x="94.4" y="285" fill="#A31515" font-size="15">&quot;</text>
-    <text x="103.0" y="285" fill="#A31515" font-size="15">decode_js.mbt</text>
-    <text x="214.8" y="285" fill="#A31515" font-size="15">&quot;</text>
+    <text x="94.4" y="285" fill="#267F99" font-size="15">&quot;decode_js.mbt&quot;</text>
     <text x="223.4" y="285" fill="#3B3B3B" font-size="15">:</text>
     <text x="232.0" y="285" fill="#3B3B3B" font-size="15"> </text>
     <text x="240.6" y="285" fill="#3B3B3B" font-size="15">[</text>
@@ -65,9 +63,7 @@
     <text x="309.4" y="285" fill="#3B3B3B" font-size="15">,</text>
     <text x="26" y="307" fill="#6E7681" font-size="15">13</text>
     <text x="60.0" y="307" fill="#3B3B3B" font-size="15">    </text>
-    <text x="94.4" y="307" fill="#A31515" font-size="15">&quot;</text>
-    <text x="103.0" y="307" fill="#A31515" font-size="15">decode_nonjs.mbt</text>
-    <text x="240.6" y="307" fill="#A31515" font-size="15">&quot;</text>
+    <text x="94.4" y="307" fill="#267F99" font-size="15">&quot;decode_nonjs.mbt&quot;</text>
     <text x="249.2" y="307" fill="#3B3B3B" font-size="15">:</text>
     <text x="257.8" y="307" fill="#3B3B3B" font-size="15"> </text>
     <text x="266.4" y="307" fill="#3B3B3B" font-size="15">[</text>
@@ -85,9 +81,7 @@
     <text x="395.4" y="307" fill="#3B3B3B" font-size="15">,</text>
     <text x="26" y="329" fill="#6E7681" font-size="15">14</text>
     <text x="60.0" y="329" fill="#3B3B3B" font-size="15">    </text>
-    <text x="94.4" y="329" fill="#A31515" font-size="15">&quot;</text>
-    <text x="103.0" y="329" fill="#A31515" font-size="15">encode_js.mbt</text>
-    <text x="214.8" y="329" fill="#A31515" font-size="15">&quot;</text>
+    <text x="94.4" y="329" fill="#267F99" font-size="15">&quot;encode_js.mbt&quot;</text>
     <text x="223.4" y="329" fill="#3B3B3B" font-size="15">:</text>
     <text x="232.0" y="329" fill="#3B3B3B" font-size="15"> </text>
     <text x="240.6" y="329" fill="#3B3B3B" font-size="15">[</text>
@@ -100,9 +94,7 @@
     <text x="309.4" y="329" fill="#3B3B3B" font-size="15">,</text>
     <text x="26" y="351" fill="#6E7681" font-size="15">15</text>
     <text x="60.0" y="351" fill="#3B3B3B" font-size="15">    </text>
-    <text x="94.4" y="351" fill="#A31515" font-size="15">&quot;</text>
-    <text x="103.0" y="351" fill="#A31515" font-size="15">encode_nonjs.mbt</text>
-    <text x="240.6" y="351" fill="#A31515" font-size="15">&quot;</text>
+    <text x="94.4" y="351" fill="#267F99" font-size="15">&quot;encode_nonjs.mbt&quot;</text>
     <text x="249.2" y="351" fill="#3B3B3B" font-size="15">:</text>
     <text x="257.8" y="351" fill="#3B3B3B" font-size="15"> </text>
     <text x="266.4" y="351" fill="#3B3B3B" font-size="15">[</text>

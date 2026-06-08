@@ -40,9 +40,7 @@
     <text x="120.2" y="219" fill="#3B3B3B" font-size="15">(</text>
     <text x="26" y="241" fill="#6E7681" font-size="15">10</text>
     <text x="60.0" y="241" fill="#3B3B3B" font-size="15">  </text>
-    <text x="77.2" y="241" fill="#A31515" font-size="15">&quot;</text>
-    <text x="85.8" y="241" fill="#A31515" font-size="15">is-main</text>
-    <text x="146.0" y="241" fill="#A31515" font-size="15">&quot;</text>
+    <text x="77.2" y="241" fill="#267F99" font-size="15">&quot;is-main&quot;</text>
     <text x="154.6" y="241" fill="#3B3B3B" font-size="15">:</text>
     <text x="163.2" y="241" fill="#3B3B3B" font-size="15"> </text>
     <text x="171.8" y="241" fill="#0000FF" font-size="15">true</text>

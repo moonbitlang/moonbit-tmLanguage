@@ -62,9 +62,7 @@
     <text x="120.2" y="197" fill="#3B3B3B" font-size="15">(</text>
     <text x="26" y="219" fill="#6E7681" font-size="15"> 9</text>
     <text x="60.0" y="219" fill="#3B3B3B" font-size="15">  </text>
-    <text x="77.2" y="219" fill="#A31515" font-size="15">&quot;</text>
-    <text x="85.8" y="219" fill="#A31515" font-size="15">preferred-target</text>
-    <text x="223.4" y="219" fill="#A31515" font-size="15">&quot;</text>
+    <text x="77.2" y="219" fill="#267F99" font-size="15">&quot;preferred-target&quot;</text>
     <text x="232.0" y="219" fill="#3B3B3B" font-size="15">:</text>
     <text x="240.6" y="219" fill="#3B3B3B" font-size="15"> </text>
     <text x="249.2" y="219" fill="#A31515" font-size="15">&quot;</text>
@@ -79,17 +77,13 @@
     <text x="128.8" y="241" fill="#3B3B3B" font-size="15">{</text>
     <text x="26" y="263" fill="#6E7681" font-size="15">11</text>
     <text x="60.0" y="263" fill="#3B3B3B" font-size="15">    </text>
-    <text x="94.4" y="263" fill="#A31515" font-size="15">&quot;</text>
-    <text x="103.0" y="263" fill="#A31515" font-size="15">moonbitlang/x</text>
-    <text x="214.8" y="263" fill="#A31515" font-size="15">&quot;</text>
+    <text x="94.4" y="263" fill="#267F99" font-size="15">&quot;moonbitlang/x&quot;</text>
     <text x="223.4" y="263" fill="#3B3B3B" font-size="15">:</text>
     <text x="232.0" y="263" fill="#3B3B3B" font-size="15"> </text>
     <text x="240.6" y="263" fill="#3B3B3B" font-size="15">{</text>
     <text x="26" y="285" fill="#6E7681" font-size="15">12</text>
     <text x="60.0" y="285" fill="#3B3B3B" font-size="15">      </text>
-    <text x="111.6" y="285" fill="#A31515" font-size="15">&quot;</text>
-    <text x="120.2" y="285" fill="#A31515" font-size="15">version</text>
-    <text x="180.4" y="285" fill="#A31515" font-size="15">&quot;</text>
+    <text x="111.6" y="285" fill="#267F99" font-size="15">&quot;version&quot;</text>
     <text x="189.0" y="285" fill="#3B3B3B" font-size="15">:</text>
     <text x="197.6" y="285" fill="#3B3B3B" font-size="15"> </text>
     <text x="206.2" y="285" fill="#A31515" font-size="15">&quot;</text>
@@ -112,9 +106,7 @@
     <text x="154.6" y="351" fill="#3B3B3B" font-size="15">{</text>
     <text x="26" y="373" fill="#6E7681" font-size="15">16</text>
     <text x="60.0" y="373" fill="#3B3B3B" font-size="15">    </text>
-    <text x="94.4" y="373" fill="#A31515" font-size="15">&quot;</text>
-    <text x="103.0" y="373" fill="#A31515" font-size="15">test</text>
-    <text x="137.4" y="373" fill="#A31515" font-size="15">&quot;</text>
+    <text x="94.4" y="373" fill="#267F99" font-size="15">&quot;test&quot;</text>
     <text x="146.0" y="373" fill="#3B3B3B" font-size="15">:</text>
     <text x="154.6" y="373" fill="#3B3B3B" font-size="15"> </text>
     <text x="163.2" y="373" fill="#A31515" font-size="15">&quot;</text>
