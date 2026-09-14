@@ -1,3 +1,0 @@
-[submodule "vendor/monogram"]
-	path = vendor/monogram
-	url = https://github.com/bzy-debug/monogram
