@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "moonbit",
   "scopeName": "source.moonbit",
-  "fileTypes": ["mbt"],
+  "fileTypes": ["mbt", "mbtx"],
   "patterns": [
     {
       "include": "#strings"
@@ -52,11 +52,11 @@
         },
         {
           "name": "keyword.control.moonbit",
-          "match": "\\b(guard|if|while|break|continue|return|try|catch|except|raise|noraise|match|lexmatch|using|else|as|in|is|loop|for|async|defer)\\b"
+          "match": "\\b(guard|if|while|break|continue|return|try|catch|except|raise|noraise|nocancel|nobreak|match|lexmatch|lexscan|using|else|as|in|is|loop|for|async|defer|errdefer)\\b"
         },
         {
           "name": "keyword.moonbit",
-          "match": "\\b(type!|lexmatch\\?|(type|typealias|let|const|enum|struct|import|trait|traitalias|derive|test|impl|with|fnalias|recur|suberror|letrec|and|where|declare)\\b)"
+          "match": "\\b(type!|(type|let|const|enum|extenum|struct|import|trait|derive|test|impl|with|recur|suberror|letrec|and|where|declare)\\b)"
         },
         {
           "name": "storage.modifier.moonbit",
@@ -162,10 +162,29 @@
           },
           "patterns": [
             {
+              "include": "#interpolation-braces"
+            },
+            {
               "include": "$self"
             }
           ],
           "name": "meta.embedded.line.moonbit"
+        }
+      ]
+    },
+    "interpolation-braces": {
+      "patterns": [
+        {
+          "begin": "{",
+          "end": "}",
+          "patterns": [
+            {
+              "include": "#interpolation-braces"
+            },
+            {
+              "include": "$self"
+            }
+          ]
         }
       ]
     },
@@ -311,7 +330,7 @@
       "patterns": [
         {
           "name": "entity.name.namespace.moonbit",
-          "match": "@[A-Za-z][A-Za-z0-9_/]*"
+          "match": "@[A-Za-z][A-Za-z0-9_/-]*"
         }
       ]
     },
