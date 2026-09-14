@@ -9,6 +9,26 @@ on:
       - main
 
 jobs:
+  grammar-compiler:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check grammar with GitHub Linguist
+        run: |
+          # Provide the minimal Linguist layout and require our expected scope.
+          linguist_root=$(mktemp -d)
+          trap 'rm -rf "$linguist_root"' EXIT
+          mkdir -p "$linguist_root/lib/linguist" "$linguist_root/vendor/grammars/moonbit/grammars"
+          printf 'ci\n' > "$linguist_root/lib/linguist/VERSION"
+          printf 'vendor/grammars/moonbit:\n  - source.moonbit\n' > "$linguist_root/grammars.yml"
+          docker run --rm \
+            -v "$linguist_root:/src/linguist:ro" \
+            -v "$GITHUB_WORKSPACE/grammars:/src/linguist/vendor/grammars/moonbit/grammars:ro" \
+            -w /src/linguist \
+            linguist/grammar-compiler:latest compile
+
   test:
     runs-on: ubuntu-latest
 
