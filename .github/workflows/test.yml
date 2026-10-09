@@ -46,3 +46,16 @@ jobs:
 
       - name: Run test
         run: npm test
+
+      - name: Generate HTML preview
+        run: npm run preview
+
+      - name: Upload HTML preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: moonbit-grammar-preview
+          path: preview.html
+          if-no-files-found: error
+
+      - name: Check HTML preview is up to date
+        run: git diff --exit-code -- preview.html

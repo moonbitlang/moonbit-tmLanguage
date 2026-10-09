@@ -1,8 +1,10 @@
 {
   "scripts": {
-    "test": "vscode-tmgrammar-test -g grammars/moonbit.tmLanguage.json 'tests/**/*.mbt'"
+    "test": "vscode-tmgrammar-test -g grammars/moonbit.tmLanguage.json 'tests/**/*.mbt'",
+    "preview": "node scripts/preview.mjs"
   },
   "devDependencies": {
+    "shiki": "^4.4.3",
     "vscode-tmgrammar-test": "^0.1.3"
   }
 }
