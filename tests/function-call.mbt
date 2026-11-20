@@ -16,3 +16,15 @@ fn main {
   bar ()
   // <--- entity.name.function.moonbit
 }
+
+///|
+fn[T] 问候(x : T) -> T { x }
+//<- keyword.moonbit
+// ^ entity.name.type.moonbit
+//    ^^ entity.name.function.moonbit - meta.function.call
+
+///|
+fn unicode_call() -> Unit {
+  问候("MoonBit") |> ignore()
+//^^ entity.name.function.moonbit
+}
