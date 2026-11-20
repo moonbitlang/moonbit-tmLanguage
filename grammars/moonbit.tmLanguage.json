@@ -52,11 +52,11 @@
         },
         {
           "name": "keyword.control.moonbit",
-          "match": "\\b(guard|if|while|break|continue|return|try|catch|except|raise|noraise|nocancel|nobreak|match|lexmatch|lexscan|using|else|as|in|is|loop|for|async|defer|errdefer)\\b"
+          "match": "\\b(guard|if|while|break|continue|return|try|catch|raise|proof_assert|noraise|nocancel|nobreak|match|lexmatch|lexscan|using|else|as|in|is|loop|for|async|defer|errdefer)\\b"
         },
         {
           "name": "keyword.moonbit",
-          "match": "\\b(type!|(type|let|const|enum|extenum|struct|import|trait|derive|test|impl|with|recur|suberror|letrec|and|where|declare)\\b)"
+          "match": "\\b(type!|(type|let|var|const|enum|extenum|enumview|struct|import|trait|derive|test|impl|with|extend|proof_let|suberror|letrec|and|where|declare)\\b)"
         },
         {
           "name": "storage.modifier.moonbit",
@@ -71,16 +71,24 @@
           "match": "=>"
         },
         {
-          "name": "keyword.operator.assignment.moonbit",
-          "match": "="
+          "name": "punctuation.brackets.iterator.moonbit",
+          "match": "\\[\\||\\|\\]"
+        },
+        {
+          "name": "keyword.operator.range.moonbit",
+          "match": ">=\\.\\.|>\\.\\.|\\.\\.<[=]?|\\.\\.=|(?<!\\.)\\.\\.(?!\\.)"
         },
         {
           "name": "keyword.operator.other.moonbit",
-          "match": "\\|>"
+          "match": "\\|>|<\\||=~|<\\?|<\\+"
         },
         {
           "name": "keyword.operator.comparison.moonbit",
-          "match": "(===|==|!=|>=|<=|(?<!-)(?<!\\|)>(?!>)|<(?!<))"
+          "match": "==|!=|>=|<=|>(?!>)|<(?!<)"
+        },
+        {
+          "name": "keyword.operator.assignment.moonbit",
+          "match": "[+*/%-]?="
         },
         {
           "name": "keyword.operator.logical.moonbit",
@@ -243,8 +251,18 @@
           }
         },
         {
+          "name": "string.regexp.moonbit",
+          "begin": "\\breb?\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "include": "#escape"
+            }
+          ]
+        },
+        {
           "name": "string.quoted.single.moonbit",
-          "begin": "'",
+          "begin": "(?:\\bb)?'",
           "end": "'",
           "patterns": [
             {
@@ -254,7 +272,7 @@
         },
         {
           "name": "string.quoted.double.moonbit",
-          "begin": "\"",
+          "begin": "(?:\\bb)?\"",
           "end": "\"",
           "patterns": [
             {
@@ -297,28 +315,24 @@
     "constants": {
       "patterns": [
         {
-          "name": "constant.numeric.moonbit",
-          "match": "\\b\\d(\\d|_)*(?!\\.)((U)?(L)?|N?)\\b"
+          "match": "(?<!\\.)\\.(\\d+)",
+          "captures": {
+            "1": {
+              "name": "constant.numeric.moonbit"
+            }
+          }
         },
         {
           "name": "constant.numeric.moonbit",
-          "match": "(?<=\\.)\\d((?=\\.)|\\b)"
+          "match": "\\b0[xX][0-9a-fA-F][0-9a-fA-F_]*\\.(?!\\.)[0-9a-fA-F_]*(?:[pP][+-]?[0-9][0-9_]*F?)?"
         },
         {
           "name": "constant.numeric.moonbit",
-          "match": "\\b\\d+(?=\\.\\.)"
+          "match": "\\b[0-9][0-9_]*\\.(?!\\.)[0-9_]*(?:[eE][+-]?[0-9][0-9_]*)?F?"
         },
         {
           "name": "constant.numeric.moonbit",
-          "match": "\\b\\d[\\d_]*\\.[\\d_]*([Ee][+-]?\\d[\\d_]*\\b)?"
-        },
-        {
-          "name": "constant.numeric.moonbit",
-          "match": "\\b0[Oo][0-7][0-7]*((U)?(L)?|N?)\\b"
-        },
-        {
-          "name": "constant.numeric.moonbit",
-          "match": "\\b0[Xx][\\dAaBbCcDdEeFf][\\dAaBbCcDdEeFf_]*((U|L|UL|N)\\b|\\.[\\da-fA-F_]*([Pp][+-]?[\\da-fA-F_]+\\b)?)?"
+          "match": "\\b(?:0[bB][01][01_]*|0[oO][0-7][0-7_]*|0[xX][0-9a-fA-F][0-9a-fA-F_]*|[0-9][0-9_]*)(?:UL|[ULN])?\\b"
         },
         {
           "name": "constant.language.moonbit",
@@ -356,15 +370,28 @@
       "patterns": [
         {
           "comment": "function/method definitions",
-          "match": "\\b(fn)\\b\\s*(?:([A-Z][A-Za-z0-9_]*)::)?([a-z0-9_][A-Za-z0-9_]*)?\\b",
+          "match": "\\b(fn)(?![\\p{L}\\p{M}\\p{N}\\p{So}_])(?:[ \\t]*\\[([^\\]\\n]*)\\])?[ \\t]*(?:([A-Z][\\p{L}\\p{M}\\p{N}\\p{So}_]*)::)?([\\p{L}\\p{So}_][\\p{L}\\p{M}\\p{N}\\p{So}_]*)?",
           "captures": {
             "1": {
               "name": "keyword.moonbit"
             },
             "2": {
-              "name": "entity.name.type.moonbit"
+              "patterns": [
+                {
+                  "include": "#modules"
+                },
+                {
+                  "include": "#types"
+                },
+                {
+                  "include": "#keywords"
+                }
+              ]
             },
             "3": {
+              "name": "entity.name.type.moonbit"
+            },
+            "4": {
               "name": "entity.name.function.moonbit"
             }
           }
@@ -372,7 +399,7 @@
         {
           "comment": "function/method calls, chaining",
           "name": "meta.function.call.moonbit",
-          "begin": "(?!\\bfn\\s+)(?:\\.|::)?([a-z0-9_][A-Za-z0-9_]*(\\!|\\?|\\!\\!)?)\\s*(\\()",
+          "begin": "(?:\\.|::)?(?<![\\p{L}\\p{M}\\p{N}\\p{So}_])((?![A-Z])[\\p{L}\\p{So}_][\\p{L}\\p{M}\\p{N}\\p{So}_]*(?:!!?|\\?)?)\\s*(\\()",
           "beginCaptures": {
             "1": {
               "name": "entity.name.function.moonbit"
