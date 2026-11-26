@@ -52,9 +52,10 @@
         },
         {
           "name": "keyword.control.moonbit",
-          "match": "\\b(guard|if|while|break|continue|return|try|catch|except|raise|noraise|nocancel|nobreak|match|lexmatch|lexscan|using|else|as|in|is|loop|for|async|defer|errdefer)\\b"
+          "match": "\\b(guard|if|while|break|continue|return|try|catch|raise|noraise|nocancel|nobreak|match|lexmatch|lexscan|using|else|as|in|is|loop|for|async|defer|errdefer)\\b"
         },
         {
+          "comment": "Keep type! and trailing derive for older source. FIXME: Give reserved spellings such as recur a consistent scope distinct from active keywords.",
           "name": "keyword.moonbit",
           "match": "\\b(type!|(type|let|const|enum|extenum|struct|import|trait|derive|test|impl|with|recur|suberror|letrec|and|where|declare)\\b)"
         },
@@ -85,6 +86,10 @@
         {
           "name": "keyword.operator.logical.moonbit",
           "match": "(\\bnot\\b|&&|\\|\\|)"
+        },
+        {
+          "name": "punctuation.brackets.iterator.moonbit",
+          "match": "\\[\\||\\|\\]"
         },
         {
           "name": "keyword.operator.bitwise.moonbit",
@@ -253,6 +258,33 @@
           ]
         },
         {
+          "name": "string.regexp.moonbit",
+          "begin": "\\breb?\"",
+          "end": "\"|$",
+          "patterns": [
+            {
+              "include": "#interpolation"
+            },
+            {
+              "name": "constant.character.escape.moonbit",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.double.bytes.moonbit",
+          "begin": "\\bb\"",
+          "end": "\"|$",
+          "patterns": [
+            {
+              "include": "#escape"
+            },
+            {
+              "include": "#interpolation"
+            }
+          ]
+        },
+        {
           "name": "string.quoted.double.moonbit",
           "begin": "\"",
           "end": "\"",
@@ -372,6 +404,7 @@
         {
           "comment": "function/method calls, chaining",
           "name": "meta.function.call.moonbit",
+          "comment": "Keep legacy f!(...), f?(...), and f!!(...) highlighting for older source.",
           "begin": "(?!\\bfn\\s+)(?:\\.|::)?([a-z0-9_][A-Za-z0-9_]*(\\!|\\?|\\!\\!)?)\\s*(\\()",
           "beginCaptures": {
             "1": {
