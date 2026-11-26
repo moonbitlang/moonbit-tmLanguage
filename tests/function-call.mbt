@@ -24,4 +24,11 @@ fn main {
 // <~~------ entity.name.function.moonbit
   let except = 1
 //    ^^^^^^ variable.other.moonbit
+  ignore(not(false))
+//       ^^^ entity.name.function.moonbit
+  ignore(!false == true)
+//       ^ keyword.operator.logical.moonbit
+//              ^^ keyword.operator.comparison.moonbit
+  ignore(1 != 2)
+//         ^^ keyword.operator.comparison.moonbit
 }

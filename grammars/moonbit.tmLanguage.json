@@ -51,6 +51,7 @@
           "match": "\\b(async)\\b"
         },
         {
+          "comment": "Keep highlighting functional loop syntax for older source.",
           "name": "keyword.control.moonbit",
           "match": "\\b(guard|if|while|break|continue|return|try|catch|raise|noraise|nocancel|nobreak|match|lexmatch|lexscan|using|else|as|in|is|loop|for|async|defer|errdefer)\\b"
         },
@@ -72,20 +73,20 @@
           "match": "=>"
         },
         {
-          "name": "keyword.operator.assignment.moonbit",
-          "match": "="
-        },
-        {
           "name": "keyword.operator.other.moonbit",
           "match": "\\|>"
         },
         {
           "name": "keyword.operator.comparison.moonbit",
-          "match": "(===|==|!=|>=|<=|(?<!-)(?<!\\|)>(?!>)|<(?!<))"
+          "match": "(==|!=|>=|<=|(?<!-)(?<!\\|)>(?!>)|<(?!<))"
+        },
+        {
+          "name": "keyword.operator.assignment.moonbit",
+          "match": "="
         },
         {
           "name": "keyword.operator.logical.moonbit",
-          "match": "(\\bnot\\b|&&|\\|\\|)"
+          "match": "(!|&&|\\|\\|)"
         },
         {
           "name": "punctuation.brackets.iterator.moonbit",
@@ -402,9 +403,8 @@
           }
         },
         {
-          "comment": "function/method calls, chaining",
+          "comment": "Function and method calls, including legacy f!(...), f?(...), and f!!(...) spellings.",
           "name": "meta.function.call.moonbit",
-          "comment": "Keep legacy f!(...), f?(...), and f!!(...) highlighting for older source.",
           "begin": "(?!\\bfn\\s+)(?:\\.|::)?([a-z0-9_][A-Za-z0-9_]*(\\!|\\?|\\!\\!)?)\\s*(\\()",
           "beginCaptures": {
             "1": {
