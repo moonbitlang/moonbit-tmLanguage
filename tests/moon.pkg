@@ -1,0 +1,5 @@
+// SYNTAX TEST "source.moonbit.config" "package manifest"
+import { "example/pkg" @pkg } for "test"
+//                            ^^^ keyword.control.context.moonbit.config
+options("is-main": true)
+//      ^^^^^^^^^ support.type.property-name.moonbit.config

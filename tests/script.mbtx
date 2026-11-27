@@ -1,0 +1,16 @@
+// SYNTAX TEST "source.moonbit" "script frontmatter"
+---
+// <--- punctuation.definition.frontmatter.moonbit
+import {
+// <------ keyword.control.import.moonbit.config
+  "moonbitlang/core/queue" @q *
+//                         ^^ entity.name.namespace.moonbit.config
+//                            ^ keyword.operator.import-all.moonbit
+}
+---
+// <--- punctuation.definition.frontmatter.moonbit
+fn main {
+// ^^^^ entity.name.function.moonbit - meta.frontmatter.moonbit
+}
+---
+// <--- keyword.operator.math.moonbit - meta.frontmatter.moonbit

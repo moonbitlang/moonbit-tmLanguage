@@ -2,8 +2,31 @@
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "moonbit",
   "scopeName": "source.moonbit",
-  "fileTypes": ["mbt", "mbtx"],
+  "fileTypes": ["mbt", "mbti", "mbtx"],
   "patterns": [
+    {
+      "name": "meta.frontmatter.moonbit",
+      "begin": "\\A---[ \\t]*$",
+      "end": "^---[ \\t]*$",
+      "captures": {
+        "0": {
+          "name": "punctuation.definition.frontmatter.moonbit"
+        }
+      },
+      "patterns": [
+        {
+          "match": "\\*",
+          "name": "keyword.operator.import-all.moonbit"
+        },
+        {
+          "include": "source.moonbit.config"
+        }
+      ]
+    },
+    {
+      "match": "^\\s*package\\b(?=\\s*\")",
+      "name": "keyword.moonbit"
+    },
     {
       "include": "#strings"
     },
@@ -385,8 +408,41 @@
         }
       ]
     },
+    "type-parameter-brackets": {
+      "begin": "\\[",
+      "end": "\\]",
+      "patterns": [
+        { "include": "#type-parameter-brackets" },
+        { "include": "$self" }
+      ]
+    },
     "functions": {
       "patterns": [
+        {
+          "begin": "\\b(fn)\\s*\\[",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.moonbit"
+            }
+          },
+          "end": "\\]\\s*(?:([A-Z][A-Za-z0-9_]*)::)?([a-z_][A-Za-z0-9_]*)?",
+          "endCaptures": {
+            "1": {
+              "name": "entity.name.type.moonbit"
+            },
+            "2": {
+              "name": "entity.name.function.moonbit"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#type-parameter-brackets"
+            },
+            {
+              "include": "$self"
+            }
+          ]
+        },
         {
           "comment": "function/method definitions",
           "match": "\\b(fn)\\b\\s*(?:([A-Z][A-Za-z0-9_]*)::)?([a-z0-9_][A-Za-z0-9_]*)?\\b",
