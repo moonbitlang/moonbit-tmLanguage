@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "vscode-tmgrammar-test -g grammars/moonbit.tmLanguage.json 'tests/**/*.mbt'"
+    "test": "vscode-tmgrammar-test -g grammars/moonbit.tmLanguage.json -g grammars/moonbit-config.tmLanguage.json 'tests/**/*.{mbt,mbti,mbtx}' 'tests/**/moon.{pkg,mod}'"
   },
   "devDependencies": {
     "vscode-tmgrammar-test": "^0.1.3"

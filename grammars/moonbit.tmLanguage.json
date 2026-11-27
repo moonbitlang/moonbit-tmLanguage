@@ -2,8 +2,31 @@
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "moonbit",
   "scopeName": "source.moonbit",
-  "fileTypes": ["mbt", "mbtx"],
+  "fileTypes": ["mbt", "mbti", "mbtx"],
   "patterns": [
+    {
+      "name": "meta.frontmatter.moonbit",
+      "begin": "\\A---[ \\t]*$",
+      "end": "^---[ \\t]*$",
+      "captures": {
+        "0": {
+          "name": "punctuation.definition.frontmatter.moonbit"
+        }
+      },
+      "patterns": [
+        {
+          "match": "\\*",
+          "name": "keyword.operator.import-all.moonbit"
+        },
+        {
+          "include": "source.moonbit.config"
+        }
+      ]
+    },
+    {
+      "match": "^\\s*package\\b(?=\\s*\")",
+      "name": "keyword.moonbit"
+    },
     {
       "include": "#strings"
     },
@@ -51,10 +74,12 @@
           "match": "\\b(async)\\b"
         },
         {
+          "comment": "Keep highlighting functional loop syntax for older source.",
           "name": "keyword.control.moonbit",
-          "match": "\\b(guard|if|while|break|continue|return|try|catch|except|raise|noraise|nocancel|nobreak|match|lexmatch|lexscan|using|else|as|in|is|loop|for|async|defer|errdefer)\\b"
+          "match": "\\b(guard|if|while|break|continue|return|try|catch|raise|noraise|nocancel|nobreak|match|lexmatch|lexscan|using|else|as|in|is|loop|for|async|defer|errdefer)\\b"
         },
         {
+          "comment": "Keep type! and trailing derive for older source. FIXME: Give reserved spellings such as recur a consistent scope distinct from active keywords.",
           "name": "keyword.moonbit",
           "match": "\\b(type!|(type|let|const|enum|extenum|struct|import|trait|derive|test|impl|with|recur|suberror|letrec|and|where|declare)\\b)"
         },
@@ -71,20 +96,24 @@
           "match": "=>"
         },
         {
-          "name": "keyword.operator.assignment.moonbit",
-          "match": "="
-        },
-        {
           "name": "keyword.operator.other.moonbit",
           "match": "\\|>"
         },
         {
           "name": "keyword.operator.comparison.moonbit",
-          "match": "(===|==|!=|>=|<=|(?<!-)(?<!\\|)>(?!>)|<(?!<))"
+          "match": "(==|!=|>=|<=|(?<!-)(?<!\\|)>(?!>)|<(?!<))"
+        },
+        {
+          "name": "keyword.operator.assignment.moonbit",
+          "match": "="
         },
         {
           "name": "keyword.operator.logical.moonbit",
-          "match": "(\\bnot\\b|&&|\\|\\|)"
+          "match": "(!|&&|\\|\\|)"
+        },
+        {
+          "name": "punctuation.brackets.iterator.moonbit",
+          "match": "\\[\\||\\|\\]"
         },
         {
           "name": "keyword.operator.bitwise.moonbit",
@@ -253,6 +282,33 @@
           ]
         },
         {
+          "name": "string.regexp.moonbit",
+          "begin": "\\breb?\"",
+          "end": "\"|$",
+          "patterns": [
+            {
+              "include": "#interpolation"
+            },
+            {
+              "name": "constant.character.escape.moonbit",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.double.bytes.moonbit",
+          "begin": "\\bb\"",
+          "end": "\"|$",
+          "patterns": [
+            {
+              "include": "#escape"
+            },
+            {
+              "include": "#interpolation"
+            }
+          ]
+        },
+        {
           "name": "string.quoted.double.moonbit",
           "begin": "\"",
           "end": "\"",
@@ -352,8 +408,41 @@
         }
       ]
     },
+    "type-parameter-brackets": {
+      "begin": "\\[",
+      "end": "\\]",
+      "patterns": [
+        { "include": "#type-parameter-brackets" },
+        { "include": "$self" }
+      ]
+    },
     "functions": {
       "patterns": [
+        {
+          "begin": "\\b(fn)\\s*\\[",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.moonbit"
+            }
+          },
+          "end": "\\]\\s*(?:([A-Z][A-Za-z0-9_]*)::)?([a-z_][A-Za-z0-9_]*)?",
+          "endCaptures": {
+            "1": {
+              "name": "entity.name.type.moonbit"
+            },
+            "2": {
+              "name": "entity.name.function.moonbit"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#type-parameter-brackets"
+            },
+            {
+              "include": "$self"
+            }
+          ]
+        },
         {
           "comment": "function/method definitions",
           "match": "\\b(fn)\\b\\s*(?:([A-Z][A-Za-z0-9_]*)::)?([a-z0-9_][A-Za-z0-9_]*)?\\b",
@@ -370,7 +459,7 @@
           }
         },
         {
-          "comment": "function/method calls, chaining",
+          "comment": "Function and method calls, including legacy f!(...), f?(...), and f!!(...) spellings.",
           "name": "meta.function.call.moonbit",
           "begin": "(?!\\bfn\\s+)(?:\\.|::)?([a-z0-9_][A-Za-z0-9_]*(\\!|\\?|\\!\\!)?)\\s*(\\()",
           "beginCaptures": {

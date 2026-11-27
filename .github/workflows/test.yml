@@ -22,7 +22,7 @@ jobs:
           trap 'rm -rf "$linguist_root"' EXIT
           mkdir -p "$linguist_root/lib/linguist" "$linguist_root/vendor/grammars/moonbit/grammars"
           printf 'ci\n' > "$linguist_root/lib/linguist/VERSION"
-          printf 'vendor/grammars/moonbit:\n  - source.moonbit\n' > "$linguist_root/grammars.yml"
+          printf 'vendor/grammars/moonbit:\n  - source.moonbit\n  - source.moonbit.config\n' > "$linguist_root/grammars.yml"
           docker run --rm \
             -v "$linguist_root:/src/linguist:ro" \
             -v "$GITHUB_WORKSPACE/grammars:/src/linguist/vendor/grammars/moonbit/grammars:ro" \

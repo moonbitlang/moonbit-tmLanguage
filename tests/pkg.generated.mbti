@@ -1,0 +1,7 @@
+// SYNTAX TEST "source.moonbit" "interface declarations"
+package "example/lib"
+// <------- keyword.moonbit
+fn[A] T::f(Self[A]) -> Unit
+//       ^ entity.name.function.moonbit - meta.function.call.moonbit
+fn[A : Compare] compare_values(A, A) -> Int
+//              ^^^^^^^^^^^^^^ entity.name.function.moonbit - meta.function.call.moonbit
