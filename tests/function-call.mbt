@@ -17,9 +17,9 @@ fn except() -> Unit {
 ///|
 fn main {
   foo()
-  // <--- entity.name.function.moonbit
+//^^^ entity.name.function.moonbit
   bar ()
-  // <--- entity.name.function.moonbit
+//^^^ entity.name.function.moonbit
   except()
 // <~~------ entity.name.function.moonbit
   let except = 1
